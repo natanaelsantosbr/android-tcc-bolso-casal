@@ -31,4 +31,10 @@ dependencies {
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-analytics'
+
+    //Auth
+    implementation 'com.google.firebase:firebase-auth'
+
+    //Realtime database
+    implementation 'com.google.firebase:firebase-database'
 }

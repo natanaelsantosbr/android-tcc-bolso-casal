@@ -12,4 +12,36 @@ public class Usuario {
         this.senha = senha;
         this.conjuge = conjuge;
     }
+
+    public String getNomeCompleto() {
+        return nomeCompleto;
+    }
+
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Conjuge getConjuge() {
+        return conjuge;
+    }
+
+    public void setConjuge(Conjuge conjuge) {
+        this.conjuge = conjuge;
+    }
 }
