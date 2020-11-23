@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1049638982016",
+    "firebase_url": "https://bolsocasal-5cd9c.firebaseio.com",
+    "project_id": "bolsocasal-5cd9c",
+    "storage_bucket": "bolsocasal-5cd9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049638982016:android:d9b21506976d312bfcf165",
+        "android_client_info": {
+          "package_name": "br.android.bolsocasalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1049638982016-kc5eu51mu7hi18fu4ah21a1a5ipipmm5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.android.bolsocasalapp",
+            "certificate_hash": "d67204a9d20f0dcf9b33eaf54df140347616dbad"
+          }
+        },
+        {
+          "client_id": "1049638982016-3tjm7qjdhmcdf5op52tdvtbssletfk6f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANbpkBDby4fgnaU4LbK-IVyfPRj2ZSCpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1049638982016-3tjm7qjdhmcdf5op52tdvtbssletfk6f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
