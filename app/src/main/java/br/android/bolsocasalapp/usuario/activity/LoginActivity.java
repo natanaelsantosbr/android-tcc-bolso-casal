@@ -1,4 +1,4 @@
-package br.android.bolsocasalapp.activity;
+package br.android.bolsocasalapp.usuario.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
