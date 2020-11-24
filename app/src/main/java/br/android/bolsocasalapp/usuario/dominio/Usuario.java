@@ -1,5 +1,7 @@
 package br.android.bolsocasalapp.usuario.dominio;
 
+import com.google.firebase.database.Exclude;
+
 public class Usuario {
     private String nomeCompleto;
     private String email;
@@ -29,6 +31,7 @@ public class Usuario {
         this.email = email;
     }
 
+    @Exclude
     public String getSenha() {
         return senha;
     }

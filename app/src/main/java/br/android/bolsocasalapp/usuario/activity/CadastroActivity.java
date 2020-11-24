@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import br.android.bolsocasalapp.R;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
+import br.android.bolsocasalapp.usuario.servicos.ICallbackCadastrar;
 import br.android.bolsocasalapp.usuario.servicos.IServicoDeUsuarios;
 import br.android.bolsocasalapp.usuario.servicos.ServicoDeUsuarios;
 import br.android.bolsocasalapp.util.ExtensaoDeString;
@@ -25,10 +26,6 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
-
-        ModeloDeCadastroDeUsuario modelo =  new ModeloDeCadastroDeUsuario("Natanael", "natanaelsantosbr@gmail.com", "123456789", "natspindola@gmail.com");
-
-        _servicoDeUsuario.Cadastrar(modelo);
     }
 
     public void cadastrarUsuario(View view)
@@ -40,6 +37,19 @@ public class CadastroActivity extends AppCompatActivity {
 
         ModeloDeCadastroDeUsuario modelo =  new ModeloDeCadastroDeUsuario(nome, email, senha, emailDoParticipante);
 
-        _servicoDeUsuario.Cadastrar(modelo);
+        _servicoDeUsuario.Cadastrar(modelo, new ICallbackCadastrar() {
+            @Override
+            public void onSucesso(boolean retorno) {
+                if(retorno)
+                {
+                    Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+                Toast.makeText(CadastroActivity.this, "Erro: " + mensagem, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

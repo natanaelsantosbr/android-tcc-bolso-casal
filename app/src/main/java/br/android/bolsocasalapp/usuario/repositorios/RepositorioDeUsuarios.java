@@ -17,24 +17,29 @@ import br.android.bolsocasalapp.util.ConfiguracaoFirebase;
 public class RepositorioDeUsuarios implements IRepositorioDeUsuarios {
 
     @Override
-    public void CadastrarNoAuth(String email, String senha) {
-        FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
-
+    public void CadastrarNoAuth(String email, String senha, final ICallbackCadastrarNoAuth callback) {
+        final FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
         firebaseAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful())
-                {
-                    Log.d("CadastroAuth", "createUserWithEmailAndPassword - sucesso");
+                if (task.isSuccessful()) {
+                    callback.onSucesso(firebaseAuth.getCurrentUser());
+                } else {
+                    try {
+                        throw task.getException();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callback.onErro(e.getMessage());
+                    }
                 }
             }
         });
     }
 
+
     @Override
     public void CadastrarUsuarioNoBanco(Usuario usuario) {
         DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference();
         firebase.child("usuarios").push().setValue(usuario);
-        Log.d("CadastrarUsuarioNoBanco", "CadastrarUsuarioNoBanco - sucesso");
     }
 }

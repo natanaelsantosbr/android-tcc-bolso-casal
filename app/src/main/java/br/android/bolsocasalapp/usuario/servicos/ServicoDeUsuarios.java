@@ -1,8 +1,14 @@
 package br.android.bolsocasalapp.usuario.servicos;
 
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseUser;
+
 import br.android.bolsocasalapp.usuario.dominio.Conjuge;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
+import br.android.bolsocasalapp.usuario.repositorios.ICallbackCadastrarNoAuth;
 import br.android.bolsocasalapp.usuario.repositorios.IRepositorioDeUsuarios;
 import br.android.bolsocasalapp.usuario.repositorios.RepositorioDeUsuarios;
 import br.android.bolsocasalapp.util.ExtensaoDeString;
@@ -13,32 +19,48 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
 
     @Override
-    public boolean Cadastrar(ModeloDeCadastroDeUsuario modelo) {
+    public void Cadastrar(ModeloDeCadastroDeUsuario modelo, final ICallbackCadastrar callback) {
 
         boolean validarNome = ExtensaoDeString.validarCampo(modelo.getNomeCompleto());
         boolean validarEmail = ExtensaoDeString.validarCampo(modelo.getEmail());
         boolean validarSenha = ExtensaoDeString.validarCampo(modelo.getSenha());
         boolean validarEmailDoParticipante = ExtensaoDeString.validarCampo(modelo.getEmailDoParticipante());
 
-        if (!validarNome)
-            return false;
+        if (!validarNome) {
+            callback.onErro("Preencha o campo Nome");
+            return;
+        }
 
-        if (!validarEmail)
-            return false;
+        if (!validarEmail) {
+            callback.onErro("Preencha o campo E-mail");
+            return;
+        }
 
-        if (!validarSenha)
-            return false;
+        if (!validarSenha) {
+            callback.onErro("Preencha o campo Senha");
+            return;
+        }
 
-        if (!validarEmailDoParticipante)
-            return false;
+        if (!validarEmailDoParticipante) {
+            callback.onErro("Preencha o campo do email do cônjuge");
+            return;
+        }
 
         Conjuge conjuge = new Conjuge(modelo.getEmailDoParticipante());
-        Usuario usuario = new Usuario(modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge);
+        final Usuario usuario = new Usuario(modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge);
 
-        _repositorioDeUsuarios.CadastrarNoAuth(usuario.getEmail(), usuario.getSenha());
+        _repositorioDeUsuarios.CadastrarNoAuth(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+            @Override
+            public void onSucesso(FirebaseUser firebaseUser) {
+                _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
+                callback.onSucesso(true);
+            }
 
-        _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
-
-        return true;
+            @Override
+            public void onErro(String erro) {
+                Log.d("ServicoDeUsuarios", "onErro: " + erro);
+                callback.onErro(erro);
+            }
+        });
     }
 }
