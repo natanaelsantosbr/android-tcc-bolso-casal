@@ -16,7 +16,7 @@ public class RepositorioDeUsuarios implements IRepositorioDeUsuarios {
     public void Cadastrar(final Usuario usuario) {
         FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
 
-        firebaseAuth.signInWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.createUserWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
