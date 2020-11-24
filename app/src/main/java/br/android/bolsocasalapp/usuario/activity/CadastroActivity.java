@@ -25,6 +25,10 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
+
+        ModeloDeCadastroDeUsuario modelo =  new ModeloDeCadastroDeUsuario("Natanael", "natanaelsantosbr@gmail.com", "123456789", "natspindola@gmail.com");
+
+        _servicoDeUsuario.Cadastrar(modelo);
     }
 
     public void cadastrarUsuario(View view)

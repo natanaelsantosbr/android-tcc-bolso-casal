@@ -20,23 +20,25 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
         boolean validarSenha = ExtensaoDeString.validarCampo(modelo.getSenha());
         boolean validarEmailDoParticipante = ExtensaoDeString.validarCampo(modelo.getEmailDoParticipante());
 
-        if(!validarNome)
+        if (!validarNome)
             return false;
 
-        if(!validarEmail)
+        if (!validarEmail)
             return false;
 
-        if(!validarSenha)
-            return  false;
+        if (!validarSenha)
+            return false;
 
-        if(!validarEmailDoParticipante)
+        if (!validarEmailDoParticipante)
             return false;
 
         Conjuge conjuge = new Conjuge(modelo.getEmailDoParticipante());
-        Usuario usuario = new Usuario(modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge );
+        Usuario usuario = new Usuario(modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge);
 
-        _repositorioDeUsuarios.Cadastrar(usuario);
+        _repositorioDeUsuarios.CadastrarNoAuth(usuario.getEmail(), usuario.getSenha());
 
-        return  true;
+        _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
+
+        return true;
     }
 }

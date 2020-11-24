@@ -1,5 +1,8 @@
 package br.android.bolsocasalapp.usuario.repositorios;
 
+import android.provider.ContactsContract;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -12,21 +15,26 @@ import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.util.ConfiguracaoFirebase;
 
 public class RepositorioDeUsuarios implements IRepositorioDeUsuarios {
+
     @Override
-    public void Cadastrar(final Usuario usuario) {
+    public void CadastrarNoAuth(String email, String senha) {
         FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
 
-        firebaseAuth.createUserWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        firebaseAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
-                    //Cadastrar Usuario no Realtime Database
-
-                    //Atualizar Nome no Auth
-
+                    Log.d("CadastroAuth", "createUserWithEmailAndPassword - sucesso");
                 }
             }
         });
+    }
+
+    @Override
+    public void CadastrarUsuarioNoBanco(Usuario usuario) {
+        DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference();
+        firebase.child("usuarios").push().setValue(usuario);
+        Log.d("CadastrarUsuarioNoBanco", "CadastrarUsuarioNoBanco - sucesso");
     }
 }
