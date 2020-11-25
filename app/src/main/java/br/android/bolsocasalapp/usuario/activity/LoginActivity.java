@@ -37,15 +37,38 @@ public class LoginActivity extends AppCompatActivity {
         inicializarComponentes();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        verificarSeEstaLogado();
+    }
+
+    private void verificarSeEstaLogado() {
+        abrirDialog();
+
+        _servicoDeAutenticacao.VerificarSeEstaLogado(new ICallbackAutenticar() {
+            @Override
+            public void onSucesso(boolean retorno, FirebaseUser usuario) {
+                if(retorno == true)
+                {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }
+
+                fecharDialog();
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+
+            }
+        });
+
+    }
+
     public void entrar(View view)
     {
-        dialog = new SpotsDialog.Builder()
-                .setContext(this)
-                .setMessage("Autenticando...")
-                .setCancelable(true)
-                .build();
+        abrirDialog();
 
-        dialog.show();
         ModeloDeAutenticacao modelo = new ModeloDeAutenticacao(txtLoginEmail.getText().toString(), txtLoginSenha.getText().toString());
 
         _servicoDeAutenticacao.Autenticar(modelo, new ICallbackAutenticar() {
@@ -55,16 +78,30 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     Toast.makeText(LoginActivity.this, usuario.getEmail(), Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    fecharDialog();
                 }
             }
 
             @Override
             public void onErro(String mensagem) {
                 Toast.makeText(LoginActivity.this, mensagem, Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+                fecharDialog();
             }
         });
+    }
+
+    private void fecharDialog() {
+        dialog.dismiss();
+    }
+
+    private void abrirDialog() {
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Autenticando...")
+                .setCancelable(true)
+                .build();
+
+        dialog.show();
     }
 
     public void abrirTelaDeCadastro(View view)

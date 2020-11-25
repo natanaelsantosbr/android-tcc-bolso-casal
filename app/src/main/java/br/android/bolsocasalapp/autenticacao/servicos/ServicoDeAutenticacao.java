@@ -85,4 +85,27 @@ public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
             }
         });
     }
+
+    @Override
+    public void VerificarSeEstaLogado(ICallbackAutenticar callback) {
+        FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
+
+        if(firebaseAuth.getCurrentUser() != null)
+        {
+            callback.onSucesso(true, firebaseAuth.getCurrentUser());
+            return;
+        }
+
+        callback.onSucesso(false,  null);
+    }
+
+    @Override
+    public void Deslogar(ICallbackAutenticar callback) {
+        FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
+
+        if(firebaseAuth.getCurrentUser() != null)
+            firebaseAuth.signOut();
+
+        callback.onSucesso(true, null);
+    }
 }
