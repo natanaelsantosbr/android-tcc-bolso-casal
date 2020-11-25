@@ -16,6 +16,26 @@ import br.android.bolsocasalapp.util.ExtensaoDeString;
 public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
 
     @Override
+    public void Cadastrar(String email, String senha, final ICallbackCadastrarNoAuth callback) {
+        final FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
+        firebaseAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    callback.onSucesso(firebaseAuth.getCurrentUser());
+                } else {
+                    try {
+                        throw task.getException();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callback.onErro(e.getMessage());
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
     public void Autenticar(ModeloDeAutenticacao modelo, final ICallbackAutenticar callback) {
         final FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
 

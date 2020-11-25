@@ -40,7 +40,7 @@ public class CadastroActivity extends AppCompatActivity {
     {
         dialog = new SpotsDialog.Builder()
                 .setContext(this)
-                .setMessage("Carregando...")
+                .setMessage("Cadastrando...")
                 .setCancelable(true)
                 .build();
 

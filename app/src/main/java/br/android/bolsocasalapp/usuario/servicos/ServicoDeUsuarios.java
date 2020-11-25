@@ -1,20 +1,20 @@
 package br.android.bolsocasalapp.usuario.servicos;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseUser;
 
+import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
+import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
 import br.android.bolsocasalapp.usuario.dominio.Conjuge;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
-import br.android.bolsocasalapp.usuario.repositorios.ICallbackCadastrarNoAuth;
+import br.android.bolsocasalapp.autenticacao.servicos.ICallbackCadastrarNoAuth;
 import br.android.bolsocasalapp.usuario.repositorios.IRepositorioDeUsuarios;
 import br.android.bolsocasalapp.usuario.repositorios.RepositorioDeUsuarios;
 import br.android.bolsocasalapp.util.ExtensaoDeString;
 
 public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
+    private IServicoDeAutenticacao _servicoDeAutenticacao = new ServicoDeAutenticacao();
     private IRepositorioDeUsuarios _repositorioDeUsuarios = new RepositorioDeUsuarios();
 
 
@@ -49,7 +49,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
         Conjuge conjuge = new Conjuge(modelo.getEmailDoParticipante());
         final Usuario usuario = new Usuario(modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge);
 
-        _repositorioDeUsuarios.CadastrarNoAuth(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+        _servicoDeAutenticacao.Cadastrar(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
             @Override
             public void onSucesso(FirebaseUser firebaseUser) {
                 _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
@@ -58,7 +58,6 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
             @Override
             public void onErro(String erro) {
-                Log.d("ServicoDeUsuarios", "onErro: " + erro);
                 callback.onErro(erro);
             }
         });

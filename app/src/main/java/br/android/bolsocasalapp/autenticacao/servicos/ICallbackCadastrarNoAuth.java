@@ -1,4 +1,4 @@
-package br.android.bolsocasalapp.usuario.repositorios;
+package br.android.bolsocasalapp.autenticacao.servicos;
 
 import com.google.firebase.auth.FirebaseUser;
 

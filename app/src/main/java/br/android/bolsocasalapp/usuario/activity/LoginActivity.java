@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     {
         dialog = new SpotsDialog.Builder()
                 .setContext(this)
-                .setMessage("Carregando...")
+                .setMessage("Autenticando...")
                 .setCancelable(true)
                 .build();
 
