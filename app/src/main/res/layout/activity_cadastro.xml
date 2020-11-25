@@ -77,6 +77,16 @@
             android:layout_height="wrap_content"
             android:onClick="cadastrarUsuario"
             android:text="Cadastrar" />
+
+        <TextView
+            android:id="@+id/txtCadastrarLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:onClick="abrirTelaDeLogin"
+            android:text="Já tem uma conta ? Clique aqui"
+            android:textSize="16sp" />
     </LinearLayout>
 
 

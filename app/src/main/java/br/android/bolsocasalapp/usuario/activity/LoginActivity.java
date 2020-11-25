@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     public void entrar(View view)
     {
         ModeloDeAutenticacao modelo = new ModeloDeAutenticacao(txtLoginEmail.getText().toString(), txtLoginSenha.getText().toString());
+
         _servicoDeAutenticacao.Autenticar(modelo, new ICallbackAutenticar() {
             @Override
             public void onSucesso(boolean retorno, FirebaseUser usuario) {
@@ -53,6 +54,11 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, mensagem, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void abrirTelaDeCadastro(View view)
+    {
+        startActivity(new Intent(LoginActivity.this, CadastroActivity.class));
     }
 
 

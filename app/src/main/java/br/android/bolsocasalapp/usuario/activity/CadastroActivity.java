@@ -59,6 +59,11 @@ public class CadastroActivity extends AppCompatActivity {
         });
     }
 
+    public void abrirTelaDeLogin(View view)
+    {
+        startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
+    }
+
     private void inicializarComponentes() {
         txtCadastroNome = findViewById(R.id.txtCadastroNome);
         txtCadastroEmail = findViewById(R.id.txtCadastroEmail);
