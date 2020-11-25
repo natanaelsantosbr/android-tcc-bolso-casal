@@ -2,6 +2,7 @@ package br.android.bolsocasalapp.usuario.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
 import br.android.bolsocasalapp.usuario.servicos.ICallbackCadastrar;
 import br.android.bolsocasalapp.usuario.servicos.IServicoDeUsuarios;
 import br.android.bolsocasalapp.usuario.servicos.ServicoDeUsuarios;
+import dmax.dialog.SpotsDialog;
 
 public class CadastroActivity extends AppCompatActivity {
     private TextInputEditText txtCadastroNome;
@@ -22,6 +24,7 @@ public class CadastroActivity extends AppCompatActivity {
     private TextInputEditText txtCadastroSenha;
     private TextInputEditText txtCadastroEmailConjuge;
     private IServicoDeUsuarios _servicoDeUsuario = new ServicoDeUsuarios();
+    private AlertDialog dialog;
 
 
     @Override
@@ -35,6 +38,14 @@ public class CadastroActivity extends AppCompatActivity {
 
     public void cadastrarUsuario(View view)
     {
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Carregando...")
+                .setCancelable(true)
+                .build();
+
+        dialog.show();
+
         String nome = txtCadastroNome.getText().toString();
         String email = txtCadastroEmail.getText().toString();
         String senha = txtCadastroSenha.getText().toString();
@@ -49,12 +60,14 @@ public class CadastroActivity extends AppCompatActivity {
                 {
                     Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CadastroActivity.this, MainActivity.class));
+                    dialog.dismiss();
                 }
             }
 
             @Override
             public void onErro(String mensagem) {
                 Toast.makeText(CadastroActivity.this, "Erro: " + mensagem, Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
     }

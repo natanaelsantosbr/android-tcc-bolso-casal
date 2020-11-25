@@ -2,6 +2,7 @@ package br.android.bolsocasalapp.usuario.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.print.PrinterId;
@@ -19,13 +20,14 @@ import br.android.bolsocasalapp.autenticacao.model.ModeloDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
+import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText txtLoginEmail;
     private TextInputEditText txtLoginSenha;
-
     private IServicoDeAutenticacao _servicoDeAutenticacao = new ServicoDeAutenticacao();
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void entrar(View view)
     {
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Carregando...")
+                .setCancelable(true)
+                .build();
+
+        dialog.show();
         ModeloDeAutenticacao modelo = new ModeloDeAutenticacao(txtLoginEmail.getText().toString(), txtLoginSenha.getText().toString());
 
         _servicoDeAutenticacao.Autenticar(modelo, new ICallbackAutenticar() {
@@ -46,12 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     Toast.makeText(LoginActivity.this, usuario.getEmail(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
             }
 
             @Override
             public void onErro(String mensagem) {
                 Toast.makeText(LoginActivity.this, mensagem, Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
     }
