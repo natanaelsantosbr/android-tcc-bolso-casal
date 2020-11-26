@@ -45,8 +45,7 @@ public class DespesaActivity extends AppCompatActivity {
         txtDespesaValor = findViewById(R.id.txtDespesaValor);
     }
 
-    public void cadastrarDespesa(View view)
-    {
+    public void cadastrarDespesa(View view) {
         dialog = new SpotsDialog.Builder()
                 .setContext(this)
                 .setMessage("Cadastrando...")

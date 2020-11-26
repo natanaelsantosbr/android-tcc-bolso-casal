@@ -1,10 +1,12 @@
 package br.android.bolsocasalapp.usuario.servicos;
 
+import android.util.Base64;
+
 import com.google.firebase.auth.FirebaseUser;
 
+import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
-import br.android.bolsocasalapp.usuario.dominio.Conjuge;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackCadastrarNoAuth;
@@ -21,7 +23,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
 
     @Override
-    public void Cadastrar(ModeloDeCadastroDeUsuario modelo, final ICallbackCadastrar callback) {
+    public void Cadastrar(final ModeloDeCadastroDeUsuario modelo, final ICallbackCadastrar callback) {
 
         boolean validarNome = ExtensaoDeString.validarCampo(modelo.getNomeCompleto());
         boolean validarEmail = ExtensaoDeString.validarCampo(modelo.getEmail());
@@ -48,39 +50,69 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
             return;
         }
 
-        String id = Base64Custom.codificarBase64(modelo.getEmail() + modelo.getEmailDoConjugue());
-
-
-        Conjuge conjuge = new Conjuge(modelo.getEmailDoConjugue());
-        final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge);
-
-        _servicoDeAutenticacao.Cadastrar(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+        final String id = Base64Custom.codificarBase64(modelo.getEmail());
+        
+        String chaveDoConjuge = Base64Custom.codificarBase64(modelo.getEmailDoConjugue());
+        
+        _repositorioDeUsuarios.BuscarUsuarioNoBanco(chaveDoConjuge, new ICallbackBuscarUsuarioNoBanco() {
             @Override
-            public void onSucesso(FirebaseUser firebaseUser) {
-                _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
-                callback.onSucesso(true);
-            }
+            public void onSucesso(boolean retorno, Usuario usuarioRetorno) {
+                boolean principal = true;
+                
+                if(usuarioRetorno != null)
+                    principal = false;
+             
+                final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), modelo.getEmailDoConjugue(), principal);
 
-            @Override
-            public void onErro(String erro) {
-                callback.onErro(erro);
-            }
-        });
-    }
+                _servicoDeAutenticacao.Cadastrar(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+                    @Override
+                    public void onSucesso(FirebaseUser firebaseUser) {
+                        _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
+                        callback.onSucesso(true);
+                    }
 
-    @Override
-    public void BuscarUsuarioLogado(final ICallbackBuscarUsuarioLogado callback) {
-        String id = "";
-        _repositorioDeUsuarios.BuscarUsuarioNoBanco(id, new ICallbackBuscarUsuarioNoBanco() {
-            @Override
-            public void onSucesso(boolean retorno, Usuario usuario) {
-                callback.onSucesso(true, usuario);
+                    @Override
+                    public void onErro(String erro) {
+                        callback.onErro(erro);
+                    }
+                });        
             }
 
             @Override
             public void onErro(String mensagem) {
                 callback.onErro(mensagem);
+
             }
         });
+        
+        
+    }
+
+    @Override
+    public void BuscarUsuarioLogado(final ICallbackBuscarUsuarioLogado callback) {
+        _servicoDeAutenticacao.VerificarSeEstaLogado(new ICallbackAutenticar() {
+            @Override
+            public void onSucesso(boolean retorno, FirebaseUser usuario) {
+                String id = Base64Custom.codificarBase64(usuario.getEmail());
+                
+                _repositorioDeUsuarios.BuscarUsuarioNoBanco(id, new ICallbackBuscarUsuarioNoBanco() {
+                    @Override
+                    public void onSucesso(boolean retorno, Usuario usuario) {
+                        callback.onSucesso(true, usuario);
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+                        callback.onErro(mensagem);
+                    }
+                });
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+
+            }
+        });
+        
     }
 }

@@ -1,5 +1,7 @@
 package br.android.bolsocasalapp.usuario.repositorios;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,13 +22,18 @@ public class RepositorioDeUsuarios implements IRepositorioDeUsuarios {
 
     @Override
     public void BuscarUsuarioNoBanco(String id, final ICallbackBuscarUsuarioNoBanco callback) {
+        Log.d("BuscarUsuarioNoBanco", "BuscarUsuarioNoBanco: " + id);
         DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(id);
 
-        firebase.addValueEventListener(new ValueEventListener() {
+        firebase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Usuario usuario = snapshot.getValue(Usuario.class);
-                callback.onSucesso(true, usuario);
+                if (snapshot.exists()) {
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    callback.onSucesso(true, usuario);
+                } else {
+                    callback.onSucesso(false, null);
+                }
             }
 
             @Override

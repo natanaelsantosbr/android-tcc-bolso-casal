@@ -2,6 +2,7 @@ package br.android.bolsocasalapp.usuario.dominio;
 
 import com.google.firebase.database.Exclude;
 
+import java.security.Principal;
 import java.util.List;
 
 public class Usuario {
@@ -9,17 +10,27 @@ public class Usuario {
     private String nomeCompleto;
     private String email;
     private String senha;
-    private Conjuge conjuge;
+    private String emailDoConjuge;
+    private boolean principal;
 
     public Usuario() {
     }
 
-    public Usuario(String id, String nomeCompleto, String email, String senha, Conjuge conjuge) {
+    public Usuario(String id, String nomeCompleto, String email, String senha, String emailConjuge, boolean principal) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.email = email;
         this.senha = senha;
-        this.conjuge = conjuge;
+        this.emailDoConjuge = emailConjuge;
+        this.principal = principal;
+    }
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
     }
 
     public String getId() {
@@ -57,11 +68,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Conjuge getConjuge() {
-        return conjuge;
+    public String getConjuge() {
+        return emailDoConjuge;
     }
 
-    public void setConjuge(Conjuge conjuge) {
-        this.conjuge = conjuge;
+    public void setConjuge(String conjuge) {
+        this.emailDoConjuge = conjuge;
     }
 }
