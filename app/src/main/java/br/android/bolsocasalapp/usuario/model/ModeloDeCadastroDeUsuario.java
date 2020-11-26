@@ -4,13 +4,22 @@ public class ModeloDeCadastroDeUsuario {
     private String nomeCompleto;
     private String email;
     private String senha;
-    private String emailDoParticipante;
+    private String emailDoConjugue;
 
-    public ModeloDeCadastroDeUsuario(String nomeCompleto, String email, String senha, String emailDoParticipante) {
+    public ModeloDeCadastroDeUsuario(String nomeCompleto, String email, String senha, String emailDoConjugue) {
         this.nomeCompleto = nomeCompleto;
         this.email = email;
         this.senha = senha;
-        this.emailDoParticipante = emailDoParticipante;
+        this.emailDoConjugue = emailDoConjugue;
+    }
+
+
+    public String getEmailDoConjugue() {
+        return emailDoConjugue;
+    }
+
+    public void setEmailDoConjugue(String emailDoConjugue) {
+        this.emailDoConjugue = emailDoConjugue;
     }
 
     public String getNomeCompleto() {
@@ -22,6 +31,7 @@ public class ModeloDeCadastroDeUsuario {
     }
 
     public String getEmail() {
+
         return email;
     }
 
@@ -37,11 +47,4 @@ public class ModeloDeCadastroDeUsuario {
         this.senha = senha;
     }
 
-    public String getEmailDoParticipante() {
-        return emailDoParticipante;
-    }
-
-    public void setEmailDoParticipante(String emailDoParticipante) {
-        this.emailDoParticipante = emailDoParticipante;
-    }
 }

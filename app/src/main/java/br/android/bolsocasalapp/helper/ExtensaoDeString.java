@@ -1,4 +1,4 @@
-package br.android.bolsocasalapp.util;
+package br.android.bolsocasalapp.helper;
 
 public class ExtensaoDeString {
 

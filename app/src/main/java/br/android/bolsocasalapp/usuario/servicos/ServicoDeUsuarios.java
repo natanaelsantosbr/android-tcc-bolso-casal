@@ -8,9 +8,11 @@ import br.android.bolsocasalapp.usuario.dominio.Conjuge;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackCadastrarNoAuth;
+import br.android.bolsocasalapp.usuario.repositorios.ICallbackBuscarUsuarioNoBanco;
 import br.android.bolsocasalapp.usuario.repositorios.IRepositorioDeUsuarios;
 import br.android.bolsocasalapp.usuario.repositorios.RepositorioDeUsuarios;
-import br.android.bolsocasalapp.util.ExtensaoDeString;
+import br.android.bolsocasalapp.helper.Base64Custom;
+import br.android.bolsocasalapp.helper.ExtensaoDeString;
 
 public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
@@ -24,7 +26,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
         boolean validarNome = ExtensaoDeString.validarCampo(modelo.getNomeCompleto());
         boolean validarEmail = ExtensaoDeString.validarCampo(modelo.getEmail());
         boolean validarSenha = ExtensaoDeString.validarCampo(modelo.getSenha());
-        boolean validarEmailDoParticipante = ExtensaoDeString.validarCampo(modelo.getEmailDoParticipante());
+        boolean validarEmailDoParticipante = ExtensaoDeString.validarCampo(modelo.getEmailDoConjugue());
 
         if (!validarNome) {
             callback.onErro("Preencha o campo Nome");
@@ -46,8 +48,11 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
             return;
         }
 
-        Conjuge conjuge = new Conjuge(modelo.getEmailDoParticipante());
-        final Usuario usuario = new Usuario(modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge);
+        String id = Base64Custom.codificarBase64(modelo.getEmail() + modelo.getEmailDoConjugue());
+
+
+        Conjuge conjuge = new Conjuge(modelo.getEmailDoConjugue());
+        final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), conjuge);
 
         _servicoDeAutenticacao.Cadastrar(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
             @Override
@@ -59,6 +64,22 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
             @Override
             public void onErro(String erro) {
                 callback.onErro(erro);
+            }
+        });
+    }
+
+    @Override
+    public void BuscarUsuarioLogado(final ICallbackBuscarUsuarioLogado callback) {
+        String id = "";
+        _repositorioDeUsuarios.BuscarUsuarioNoBanco(id, new ICallbackBuscarUsuarioNoBanco() {
+            @Override
+            public void onSucesso(boolean retorno, Usuario usuario) {
+                callback.onSucesso(true, usuario);
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+                callback.onErro(mensagem);
             }
         });
     }

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -15,7 +14,7 @@ import br.android.bolsocasalapp.R;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
-import br.android.bolsocasalapp.despesa.activity.DespesaActivity;
+import br.android.bolsocasalapp.despesas.activity.DespesaActivity;
 import br.android.bolsocasalapp.usuario.activity.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,14 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.menu_sair:
                 _servicoDeAutenticacao.Deslogar(new ICallbackAutenticar() {
                     @Override
                     public void onSucesso(boolean retorno, FirebaseUser usuario) {
-                        if(retorno)
-                        {
+                        if (retorno) {
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                             finish();
 

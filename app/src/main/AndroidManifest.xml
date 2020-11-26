@@ -9,8 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".despesa.activity.DespesaActivity"></activity>
-        <activity android:name=".activity.DespesasActivity" />
+        <activity android:name=".despesas.activity.DespesaActivity" android:parentActivityName=".activity.MainActivity"></activity>
         <activity android:name=".usuario.activity.LoginActivity"></activity>
         <activity android:name=".usuario.activity.CadastroActivity"></activity>
         <activity android:name=".activity.MainActivity">

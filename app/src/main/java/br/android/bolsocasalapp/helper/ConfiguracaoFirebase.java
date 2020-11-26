@@ -1,4 +1,4 @@
-package br.android.bolsocasalapp.util;
+package br.android.bolsocasalapp.helper;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;

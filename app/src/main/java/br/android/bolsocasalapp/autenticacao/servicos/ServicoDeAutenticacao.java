@@ -10,8 +10,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 import br.android.bolsocasalapp.autenticacao.model.ModeloDeAutenticacao;
-import br.android.bolsocasalapp.util.ConfiguracaoFirebase;
-import br.android.bolsocasalapp.util.ExtensaoDeString;
+import br.android.bolsocasalapp.helper.ConfiguracaoFirebase;
+import br.android.bolsocasalapp.helper.ExtensaoDeString;
 
 public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
 
