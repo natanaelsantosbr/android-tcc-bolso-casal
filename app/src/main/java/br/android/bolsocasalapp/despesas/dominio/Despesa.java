@@ -2,6 +2,8 @@ package br.android.bolsocasalapp.despesas.dominio;
 
 import java.util.Date;
 
+import br.android.bolsocasalapp.usuario.dominio.Usuario;
+
 public class Despesa {
     private String id;
     private String nome;
@@ -9,14 +11,24 @@ public class Despesa {
     private String data;
     private String mesAno;
     private Double valor;
+    private Usuario usuario;
 
-    public Despesa(String id, String nome, String categoria, String data, String mesAno, Double valor) {
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Despesa(String id, String nome, String categoria, String data, String mesAno, Double valor, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
         this.data = data;
         this.valor = valor;
         this.mesAno = mesAno;
+        this.usuario = usuario;
     }
 
     public String getId() {

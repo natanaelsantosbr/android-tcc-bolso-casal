@@ -57,7 +57,7 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
 
                 String id = Base64Custom.codificarBase64(usuario.isPrincipal() ? usuario.getEmail() + usuario.getConjuge() : usuario.getConjuge() + usuario.getEmail());
 
-                Despesa despesa = new Despesa(id, modelo.getDescricao(), modelo.getCategoria(), modelo.getData(), DateCustom.mesAnoDataEscolhida(modelo.getData()), Double.parseDouble(modelo.getValor()));
+                Despesa despesa = new Despesa(id, modelo.getDescricao(), modelo.getCategoria(), modelo.getData(), DateCustom.mesAnoDataEscolhida(modelo.getData()), Double.parseDouble(modelo.getValor()), usuario);
                 _repositorioDeDespesas.CadastrarDespesaNoBanco(despesa);
                 callback.onSucesso(true);
             }
