@@ -75,6 +75,7 @@ public class CadastroActivity extends AppCompatActivity {
     public void abrirTelaDeLogin(View view)
     {
         startActivity(new Intent(CadastroActivity.this, LoginActivity.class));
+        finish();
     }
 
     private void inicializarComponentes() {

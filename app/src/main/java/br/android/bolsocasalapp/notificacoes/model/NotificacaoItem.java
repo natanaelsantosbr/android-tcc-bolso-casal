@@ -1,27 +1,30 @@
 package br.android.bolsocasalapp.notificacoes.model;
 
 public class NotificacaoItem {
-    private String titulo;
-    private String mensagem;
+    private String title;
+    private String body;
 
-    public NotificacaoItem(String titulo, String mensagem) {
-        this.titulo = titulo;
-        this.mensagem = mensagem;
+    public NotificacaoItem(String title, String body) {
+        this.title = title;
+        this.body = body;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public NotificacaoItem() {
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public String getMensagem() {
-        return mensagem;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

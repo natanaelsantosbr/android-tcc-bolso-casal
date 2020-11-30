@@ -25,13 +25,16 @@ public class DespesaActivity extends AppCompatActivity {
     private TextInputEditText txtDespesaData;
     private CurrencyEditText txtDespesaValor;
 
-    private IServicoDeDespesas _servicoDeDespesas = new ServicoDeDespesas();
+    private IServicoDeDespesas _servicoDeDespesas;
+
     private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_despesa);
+
+        _servicoDeDespesas = new ServicoDeDespesas();
 
         getSupportActionBar().setTitle("Adicionar Despesa");
 
@@ -55,7 +58,8 @@ public class DespesaActivity extends AppCompatActivity {
 
         dialog.show();
 
-        ModeloDeCadastroDeDespesa modelo = new ModeloDeCadastroDeDespesa(txtDespesaDescricao.getText().toString(), txtDespesaCategoria.getText().toString(), txtDespesaData.getText().toString(), txtDespesaValor.getText().toString());
+        ModeloDeCadastroDeDespesa modelo = new ModeloDeCadastroDeDespesa(txtDespesaDescricao.getText().toString(),
+                txtDespesaCategoria.getText().toString(), txtDespesaData.getText().toString(), txtDespesaValor.getText().toString());
 
         _servicoDeDespesas.Cadastrar(modelo, new ICallbackCadastrarDespesa() {
             @Override

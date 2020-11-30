@@ -11,7 +11,9 @@ import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
 import br.android.bolsocasalapp.notificacoes.servicos.ICallbackToken;
+import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacao;
 import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacoes;
+import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacao;
 import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacoes;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
@@ -24,10 +26,15 @@ import br.android.bolsocasalapp.helper.ExtensaoDeString;
 
 public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
-    private IServicoDeAutenticacao _servicoDeAutenticacao = new ServicoDeAutenticacao();
-    private IRepositorioDeUsuarios _repositorioDeUsuarios = new RepositorioDeUsuarios();
-    private IServicoDeNotificacoes _servicoDeNotificacoes = new ServicoDeNotificacoes();
+    private IServicoDeAutenticacao _servicoDeAutenticacao;
+    private IRepositorioDeUsuarios _repositorioDeUsuarios;
+    private IServicoDeNotificacao _servicoDeNotificacao;
 
+    public ServicoDeUsuarios() {
+        _servicoDeAutenticacao  = new ServicoDeAutenticacao();
+        _repositorioDeUsuarios = new RepositorioDeUsuarios();
+        _servicoDeNotificacao = new ServicoDeNotificacao(this);
+    }
 
     @Override
     public void Cadastrar(final ModeloDeCadastroDeUsuario modelo, final ICallbackCadastrar callback) {
@@ -70,7 +77,8 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                     principal = false;
 
                 final boolean finalPrincipal = principal;
-                _servicoDeNotificacoes.RetornarToken(new ICallbackToken() {
+
+                _servicoDeNotificacao.RetornarToken(new ICallbackToken() {
                     @Override
                     public void onSucesso(String token) {
 
@@ -90,6 +98,9 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                         });
                     }
                 });
+
+
+
             }
 
             @Override
@@ -128,5 +139,10 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
             }
         });
         
+    }
+
+    @Override
+    public void BuscarDadosDoConjuge(ICallbackBuscarUsuarioLogado callback) {
+
     }
 }

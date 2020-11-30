@@ -1,28 +1,13 @@
 package br.android.bolsocasalapp.notificacoes.servicos;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.Gson;
 
-import br.android.bolsocasalapp.R;
-import br.android.bolsocasalapp.activity.MainActivity;
 import br.android.bolsocasalapp.despesas.dominio.Despesa;
 import br.android.bolsocasalapp.notificacoes.model.Notificacao;
 import br.android.bolsocasalapp.notificacoes.model.NotificacaoItem;
@@ -37,17 +22,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ServicoDeNotificacoes implements IServicoDeNotificacoes
-{
+public class ServicoDeNotificacao implements IServicoDeNotificacao{
+
     private IServicoDeUsuarios _servicoDeUsuarios;
 
-
-    public ServicoDeNotificacoes() {
-        _servicoDeUsuarios = new ServicoDeUsuarios();
+    public ServicoDeNotificacao(IServicoDeUsuarios servicoDeUsuarios) {
+        _servicoDeUsuarios = servicoDeUsuarios;
     }
 
+    @Override
     public void Enviar(final Despesa despesa)
     {
+        Log.d("enviarNotificacao", "enviarNotificacao: " + 1);
+
         _servicoDeUsuarios.BuscarUsuarioLogado(new ICallbackBuscarUsuarioLogado() {
             @Override
             public void onSucesso(boolean retorno, Usuario usuario) {
@@ -58,19 +45,34 @@ public class ServicoDeNotificacoes implements IServicoDeNotificacoes
 
                 IServicoDeNotificacoesApi servico = retrofit.create(IServicoDeNotificacoesApi.class);
 
-                NotificacaoItem item = new NotificacaoItem( despesa.getUsuario().getNomeCompleto() + "adicionou uma nova despesa", "Adicionou a despesa " + despesa.getNome() + " no valor de " + despesa.getValor());
+                NotificacaoItem item = new NotificacaoItem( despesa.getUsuario().getNomeCompleto() + " adicionou uma nova despesa paga", "Adicionou a despesa " + despesa.getNome() + " no valor de " + despesa.getValor());
 
-                Notificacao notificacao = new Notificacao(despesa.getUsuario().getToken(), item);
+                String token = "/token/" + despesa.getUsuario().getToken();
+
+                Notificacao notificacao = new Notificacao(token, item);
+
+                Log.d("enviarNotificacao", "enviarNotificacao: " + token);
+                Log.d("enviarNotificacao", "enviarNotificacao: " + notificacao.toString());
 
                 Call<Notificacao> call = servico.enviarNotificacao(notificacao);
 
                 call.enqueue(new Callback<Notificacao>() {
                     @Override
                     public void onResponse(Call<Notificacao> call, Response<Notificacao> response) {
+                        if(response.isSuccessful())
+                        {
+                            Log.d("enviarNotificacao", "enviarNotificacao: " + response.code());
+                        }
+                        else
+                        {
+                            Log.d("enviarNotificacao", "enviarNotificacao: " + 4);
+                        }
+
                     }
 
                     @Override
                     public void onFailure(Call<Notificacao> call, Throwable t) {
+                        Log.d("enviarNotificacao", "enviarNotificacao: " + 3);
 
                     }
                 });
@@ -78,11 +80,12 @@ public class ServicoDeNotificacoes implements IServicoDeNotificacoes
 
             @Override
             public void onErro(String mensagem) {
-
+                Log.d("enviarNotificacao", "enviarNotificacao: " + mensagem);
             }
         });
     }
 
+    @Override
     public void RetornarToken(final ICallbackToken callback) {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -93,4 +96,3 @@ public class ServicoDeNotificacoes implements IServicoDeNotificacoes
                 });
     }
 }
-

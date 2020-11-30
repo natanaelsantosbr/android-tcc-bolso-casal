@@ -1,12 +1,11 @@
 package br.android.bolsocasalapp.notificacoes.servicos;
 
-
-import br.android.bolsocasalapp.notificacoes.model.Notificacao;
+import br.android.bolsocasalapp.despesas.dominio.Despesa;
 
 public interface IServicoDeNotificacoes
 {
-    void Enviar(Notificacao notificacao);
+    //void Enviar(Despesa despesa);
 
-    void RetornarToken(ICallbackToken callback);
+    //void RetornarToken(ICallbackToken callback);
 
 }
