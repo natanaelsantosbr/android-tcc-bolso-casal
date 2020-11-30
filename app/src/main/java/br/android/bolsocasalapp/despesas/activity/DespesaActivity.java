@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.android.material.textfield.TextInputEditText;
 
 import br.android.bolsocasalapp.R;
@@ -22,7 +23,7 @@ public class DespesaActivity extends AppCompatActivity {
     private TextInputEditText txtDespesaDescricao;
     private TextInputEditText txtDespesaCategoria;
     private TextInputEditText txtDespesaData;
-    private TextInputEditText txtDespesaValor;
+    private CurrencyEditText txtDespesaValor;
 
     private IServicoDeDespesas _servicoDeDespesas = new ServicoDeDespesas();
     private AlertDialog dialog;

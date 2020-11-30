@@ -52,17 +52,15 @@
             app:maskCharacter="_"
             app:maskStyle="completable"/>
 
-
-        <com.google.android.material.textfield.TextInputLayout
+        <com.blackcat.currencyedittext.CurrencyEditText
+            android:id="@+id/txtDespesaValor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Valor"
+            android:inputType="textPersonName"
+            />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtDespesaValor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Valor" />
-        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

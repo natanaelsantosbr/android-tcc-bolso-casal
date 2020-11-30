@@ -1,5 +1,6 @@
 package br.android.bolsocasalapp.despesas.dominio;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
@@ -10,7 +11,7 @@ public class Despesa {
     private String categoria;
     private String data;
     private String mesAno;
-    private Double valor;
+    private String valor;
     private Usuario usuario;
 
     public Usuario getUsuario() {
@@ -21,7 +22,7 @@ public class Despesa {
         this.usuario = usuario;
     }
 
-    public Despesa(String id, String nome, String categoria, String data, String mesAno, Double valor, Usuario usuario) {
+    public Despesa(String id, String nome, String categoria, String data, String mesAno, String  valor, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.categoria = categoria;
@@ -71,11 +72,11 @@ public class Despesa {
         this.mesAno = mesAno;
     }
 
-    public Double getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 }

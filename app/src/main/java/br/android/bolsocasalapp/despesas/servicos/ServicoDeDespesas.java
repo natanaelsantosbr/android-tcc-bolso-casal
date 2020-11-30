@@ -2,6 +2,10 @@ package br.android.bolsocasalapp.despesas.servicos;
 
 import android.util.Log;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Locale;
+
 import br.android.bolsocasalapp.despesas.dominio.Despesa;
 import br.android.bolsocasalapp.despesas.model.ModeloDeCadastroDeDespesa;
 import br.android.bolsocasalapp.despesas.repositorio.IRepositorioDeDespesas;
@@ -50,14 +54,11 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
         _servicoDeUsuarios.BuscarUsuarioLogado(new ICallbackBuscarUsuarioLogado() {
             @Override
             public void onSucesso(boolean retorno, Usuario usuario) {
-
-                Log.d("despesa", "despesa principal" + usuario.isPrincipal());
-                Log.d("despesa", "despesa email" + usuario.getEmail());
-                Log.d("despesa", "despesa conjuge" + usuario.getConjuge());
-
                 String id = Base64Custom.codificarBase64(usuario.isPrincipal() ? usuario.getEmail() + usuario.getConjuge() : usuario.getConjuge() + usuario.getEmail());
+                modelo.setValor(String.valueOf(ExtensaoDeString.ConverterRealParaString(modelo.getValor())));
 
-                Despesa despesa = new Despesa(id, modelo.getDescricao(), modelo.getCategoria(), modelo.getData(), DateCustom.mesAnoDataEscolhida(modelo.getData()), Double.parseDouble(modelo.getValor()), usuario);
+                Despesa despesa = new Despesa(id, modelo.getDescricao(), modelo.getCategoria(), modelo.getData(), DateCustom.mesAnoDataEscolhida(modelo.getData()), modelo.getValor(), usuario);
+
                 _repositorioDeDespesas.CadastrarDespesaNoBanco(despesa);
                 callback.onSucesso(true);
             }

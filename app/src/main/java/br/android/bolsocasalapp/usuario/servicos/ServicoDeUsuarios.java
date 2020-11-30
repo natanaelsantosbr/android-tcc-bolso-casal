@@ -4,6 +4,8 @@ import android.util.Base64;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.ParseException;
+
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
