@@ -12,17 +12,36 @@ public class Usuario {
     private String senha;
     private String emailDoConjuge;
     private boolean principal;
+    private String token;
+
+
+    public String getEmailDoConjuge() {
+        return emailDoConjuge;
+    }
+
+    public void setEmailDoConjuge(String emailDoConjuge) {
+        this.emailDoConjuge = emailDoConjuge;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Usuario() {
     }
 
-    public Usuario(String id, String nomeCompleto, String email, String senha, String emailConjuge, boolean principal) {
+    public Usuario(String id, String nomeCompleto, String email, String senha, String emailDoConjuge, boolean principal, String token) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.email = email;
         this.senha = senha;
-        this.emailDoConjuge = emailConjuge;
+        this.emailDoConjuge = emailDoConjuge;
         this.principal = principal;
+        this.token = token;
     }
 
     public boolean isPrincipal() {

@@ -3,12 +3,16 @@ package br.android.bolsocasalapp.usuario.servicos;
 import android.util.Base64;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.ParseException;
 
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
+import br.android.bolsocasalapp.notificacoes.servicos.ICallbackToken;
+import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacoes;
+import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacoes;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackCadastrarNoAuth;
@@ -22,6 +26,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
     private IServicoDeAutenticacao _servicoDeAutenticacao = new ServicoDeAutenticacao();
     private IRepositorioDeUsuarios _repositorioDeUsuarios = new RepositorioDeUsuarios();
+    private IServicoDeNotificacoes _servicoDeNotificacoes = new ServicoDeNotificacoes();
 
 
     @Override
@@ -63,21 +68,28 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                 
                 if(usuarioRetorno != null)
                     principal = false;
-             
-                final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), modelo.getEmailDoConjugue(), principal);
 
-                _servicoDeAutenticacao.Cadastrar(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+                final boolean finalPrincipal = principal;
+                _servicoDeNotificacoes.RetornarToken(new ICallbackToken() {
                     @Override
-                    public void onSucesso(FirebaseUser firebaseUser) {
-                        _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
-                        callback.onSucesso(true);
-                    }
+                    public void onSucesso(String token) {
 
-                    @Override
-                    public void onErro(String erro) {
-                        callback.onErro(erro);
+                        final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), modelo.getEmailDoConjugue(), finalPrincipal, token);
+
+                        _servicoDeAutenticacao.Cadastrar(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+                            @Override
+                            public void onSucesso(FirebaseUser firebaseUser) {
+                                _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
+                                callback.onSucesso(true);
+                            }
+
+                            @Override
+                            public void onErro(String erro) {
+                                callback.onErro(erro);
+                            }
+                        });
                     }
-                });        
+                });
             }
 
             @Override

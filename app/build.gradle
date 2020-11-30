@@ -33,6 +33,7 @@ dependencies {
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:26.1.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
 
     //Auth
     implementation 'com.google.firebase:firebase-auth'
@@ -49,5 +50,11 @@ dependencies {
 
     //Mascara de Moeda
     implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    //
 
 }
