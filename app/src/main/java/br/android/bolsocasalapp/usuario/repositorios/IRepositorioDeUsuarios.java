@@ -6,5 +6,7 @@ public interface IRepositorioDeUsuarios {
 
     void CadastrarUsuarioNoBanco(Usuario usuario);
 
-    void BuscarUsuarioNoBanco(String id,  ICallbackBuscarUsuarioNoBanco callback);
+    void BuscarUsuarioNoBanco(String id, ICallbackBuscarUsuarioNoBanco callback);
+
+    void BuscarConjugeNoBanco(String id, ICallbackBuscarUsuarioNoBanco callback);
 }

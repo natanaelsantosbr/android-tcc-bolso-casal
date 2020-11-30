@@ -42,4 +42,26 @@ public class RepositorioDeUsuarios implements IRepositorioDeUsuarios {
             }
         });
     }
+
+    @Override
+    public void BuscarConjugeNoBanco(String id, final ICallbackBuscarUsuarioNoBanco callback) {
+        DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(id);
+
+        firebase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    callback.onSucesso(true, usuario);
+                } else {
+                    callback.onSucesso(false, null);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onErro(error.getMessage());
+            }
+        });
+    }
 }

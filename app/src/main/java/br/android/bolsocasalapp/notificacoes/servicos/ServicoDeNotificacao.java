@@ -35,52 +35,55 @@ public class ServicoDeNotificacao implements IServicoDeNotificacao{
     {
         Log.d("enviarNotificacao", "enviarNotificacao: " + 1);
 
-        _servicoDeUsuarios.BuscarUsuarioLogado(new ICallbackBuscarUsuarioLogado() {
+        _servicoDeUsuarios.BuscarDadosDoConjuge(new ICallbackBuscarUsuarioLogado() {
             @Override
             public void onSucesso(boolean retorno, Usuario usuario) {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://fcm.googleapis.com/fcm/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+                if(retorno)
+                {
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://fcm.googleapis.com/fcm/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
 
-                IServicoDeNotificacoesApi servico = retrofit.create(IServicoDeNotificacoesApi.class);
+                    IServicoDeNotificacoesApi servico = retrofit.create(IServicoDeNotificacoesApi.class);
 
-                NotificacaoItem item = new NotificacaoItem( despesa.getUsuario().getNomeCompleto() + " adicionou uma nova despesa paga", "Adicionou a despesa " + despesa.getNome() + " no valor de " + despesa.getValor());
+                    NotificacaoItem item = new NotificacaoItem( despesa.getUsuario().getNomeCompleto() + " adicionou uma nova despesa paga", "Adicionou a despesa " + despesa.getNome() + " no valor de " + despesa.getValor());
 
-                String token = "/token/" + despesa.getUsuario().getToken();
+                    String token = "/token/" +  usuario.getToken();
 
-                Notificacao notificacao = new Notificacao(token, item);
+                    Notificacao notificacao = new Notificacao(token, item);
 
-                Log.d("enviarNotificacao", "enviarNotificacao: " + token);
-                Log.d("enviarNotificacao", "enviarNotificacao: " + notificacao.toString());
+                    Log.d("enviarNotificacao", "enviarNotificacao: " + token);
+                    Log.d("enviarNotificacao", "enviarNotificacao: " + notificacao.toString());
 
-                Call<Notificacao> call = servico.enviarNotificacao(notificacao);
+                    Call<Notificacao> call = servico.enviarNotificacao(notificacao);
 
-                call.enqueue(new Callback<Notificacao>() {
-                    @Override
-                    public void onResponse(Call<Notificacao> call, Response<Notificacao> response) {
-                        if(response.isSuccessful())
-                        {
-                            Log.d("enviarNotificacao", "enviarNotificacao: " + response.code());
+                    call.enqueue(new Callback<Notificacao>() {
+                        @Override
+                        public void onResponse(Call<Notificacao> call, Response<Notificacao> response) {
+                            if(response.isSuccessful())
+                            {
+                                Log.d("enviarNotificacao", "enviarNotificacao: " + response.code());
+                            }
+                            else
+                            {
+                                Log.d("enviarNotificacao", "enviarNotificacao: " + 4);
+                            }
+
                         }
-                        else
-                        {
-                            Log.d("enviarNotificacao", "enviarNotificacao: " + 4);
+
+                        @Override
+                        public void onFailure(Call<Notificacao> call, Throwable t) {
+                            Log.d("enviarNotificacao", "enviarNotificacao: " + 3);
+
                         }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Notificacao> call, Throwable t) {
-                        Log.d("enviarNotificacao", "enviarNotificacao: " + 3);
-
-                    }
-                });
+                    });
+                }
             }
 
             @Override
             public void onErro(String mensagem) {
-                Log.d("enviarNotificacao", "enviarNotificacao: " + mensagem);
+
             }
         });
     }

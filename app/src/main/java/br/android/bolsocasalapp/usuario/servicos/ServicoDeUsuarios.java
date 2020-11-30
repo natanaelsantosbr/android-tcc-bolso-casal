@@ -142,7 +142,42 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
     }
 
     @Override
-    public void BuscarDadosDoConjuge(ICallbackBuscarUsuarioLogado callback) {
+    public void BuscarDadosDoConjuge(final ICallbackBuscarUsuarioLogado callback) {
+        _servicoDeAutenticacao.VerificarSeEstaLogado(new ICallbackAutenticar() {
+            @Override
+            public void onSucesso(boolean retorno, FirebaseUser usuario) {
+                String id = Base64Custom.codificarBase64(usuario.getEmail());
+
+                _repositorioDeUsuarios.BuscarUsuarioNoBanco(id, new ICallbackBuscarUsuarioNoBanco() {
+                    @Override
+                    public void onSucesso(boolean retorno, Usuario usuario) {
+                        String idDoConjuge = Base64Custom.codificarBase64(usuario.getConjuge());
+
+                        _repositorioDeUsuarios.BuscarConjugeNoBanco(idDoConjuge, new ICallbackBuscarUsuarioNoBanco() {
+                            @Override
+                            public void onSucesso(boolean retorno, Usuario usuario) {
+                                callback.onSucesso(true, usuario);
+                            }
+
+                            @Override
+                            public void onErro(String mensagem) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+
+            }
+        });
 
     }
 }
