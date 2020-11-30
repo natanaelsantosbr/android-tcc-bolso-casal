@@ -42,17 +42,16 @@
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.santalu.maskara.widget.MaskEditText
+            android:id="@+id/txtDespesaData"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:hint="Data"
+            android:inputType="number"
+            app:mask="__/__/____"
+            app:maskCharacter="_"
+            app:maskStyle="completable"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtDespesaData"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Data"
-                android:inputType="date" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

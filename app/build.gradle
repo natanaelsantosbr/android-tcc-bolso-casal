@@ -41,4 +41,7 @@ dependencies {
 
     //Dialog Loading
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
+    //Mascara
+    implementation 'com.github.santalu:maskara:1.0.0'
 }
