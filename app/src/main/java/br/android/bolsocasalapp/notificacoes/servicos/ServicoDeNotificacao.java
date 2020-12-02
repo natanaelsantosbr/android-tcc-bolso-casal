@@ -47,7 +47,7 @@ public class ServicoDeNotificacao implements IServicoDeNotificacao{
 
                     IServicoDeNotificacoesApi servico = retrofit.create(IServicoDeNotificacoesApi.class);
 
-                    NotificacaoItem item = new NotificacaoItem( despesa.getUsuario().getNomeCompleto() + " adicionou uma nova despesa paga", "Adicionou a despesa " + despesa.getNome() + " no valor de " + despesa.getValor());
+                    NotificacaoItem item = new NotificacaoItem( despesa.getUsuario().getNomeCompleto() + " adicionou uma nova despesa que foi paga", "Adicionou a despesa " + despesa.getNome() + " no valor de R$ " + despesa.getValor());
 
                     String token = "/token/" +  usuario.getToken();
 

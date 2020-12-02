@@ -2,6 +2,7 @@ package br.android.bolsocasalapp.helper;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 
 public class ExtensaoDeString {
 
@@ -24,5 +25,11 @@ public class ExtensaoDeString {
             }
         }
         return 0;
+    }
+
+    public static String ConverterDoubleParaMoeda(double d)
+    {
+        Locale ptBr = new Locale("pt", "BR");
+        return  NumberFormat.getCurrencyInstance(ptBr).format(d);
     }
 }
