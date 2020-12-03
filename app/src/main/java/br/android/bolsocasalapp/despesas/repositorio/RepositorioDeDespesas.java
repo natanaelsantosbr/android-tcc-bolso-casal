@@ -16,4 +16,9 @@ public class RepositorioDeDespesas implements IRepositorioDeDespesas {
                 .push()
                 .setValue(despesa);
     }
+
+    @Override
+    public void BuscarDespesasPorMesAno(String id, String mesAno, ICallbackBuscarDespesasPorMesAno callback) {
+
+    }
 }
