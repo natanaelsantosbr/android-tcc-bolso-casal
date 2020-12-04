@@ -4,10 +4,12 @@ import android.util.Log;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Locale;
 
 import br.android.bolsocasalapp.despesas.dominio.Despesa;
 import br.android.bolsocasalapp.despesas.model.ModeloDeCadastroDeDespesa;
+import br.android.bolsocasalapp.despesas.repositorio.ICallbackBuscarDespesasPorMesAno;
 import br.android.bolsocasalapp.despesas.repositorio.IRepositorioDeDespesas;
 import br.android.bolsocasalapp.despesas.repositorio.RepositorioDeDespesas;
 import br.android.bolsocasalapp.helper.DateCustom;
@@ -74,6 +76,28 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
                 _servicoDeNotificacoes.Enviar(despesa);
 
                 callback.onSucesso(true);
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+                callback.onErro(mensagem);
+            }
+        });
+    }
+
+    @Override
+    public void BuscarDespesasPorAnoMes(String mesAno, final ICallbackBuscarDespesasPorAnoMes callback) {
+
+        String idDoCasal = "";
+        mesAno = "";
+
+        _repositorioDeDespesas.BuscarDespesasPorMesAno(idDoCasal, mesAno, new ICallbackBuscarDespesasPorMesAno() {
+            @Override
+            public void onSucesso(boolean retorno, List<Despesa> despesas) {
+                if(retorno)
+                {
+                    callback.onSucesso(true, despesas);
+                }
             }
 
             @Override
