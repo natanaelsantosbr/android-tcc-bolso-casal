@@ -2,11 +2,14 @@ package br.android.bolsocasalapp.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -25,8 +28,11 @@ import br.android.bolsocasalapp.usuario.activity.LoginActivity;
 public class MainActivity extends AppCompatActivity {
     private IServicoDeAutenticacao _servicoDeAutenticacao = new ServicoDeAutenticacao();
     private IServicoDeDespesas _servicoDeDespesas = new ServicoDeDespesas();
-
     private MaterialCalendarView calendarView;
+    private RecyclerView recyclerDespesas;
+    private TextView lblNomeDoUsuario;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         calendarView = findViewById(R.id.calendarView);
+        recyclerDespesas = findViewById(R.id.recyclerDespesas);
+        lblNomeDoUsuario = findViewById(R.id.lblNomeDoUsuario);
         configurarCalendarView();
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerDespesas.setLayoutManager(layoutManager);
+        recyclerDespesas.setHasFixedSize(true);
+
     }
 
     public void configurarCalendarView() {
@@ -63,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
                 if(!retorno)
                 {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+                else
+                {
+                    lblNomeDoUsuario.setText(usuario.getEmail());
+
                 }
             }
 

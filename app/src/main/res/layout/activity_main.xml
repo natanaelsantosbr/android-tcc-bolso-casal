@@ -16,6 +16,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/lblNomeDoUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -40,6 +41,7 @@
             </TextView>
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="R$ 0,00"
@@ -94,7 +96,7 @@
         app:mcv_tileSize="50dp"       />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerMovimentos"
+        android:id="@+id/recyclerDespesas"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
