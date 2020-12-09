@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import br.android.bolsocasalapp.despesas.dominio.Despesa;
+import br.android.bolsocasalapp.despesas.model.AdapterDespesa;
 import br.android.bolsocasalapp.despesas.model.ModeloDeCadastroDeDespesa;
 import br.android.bolsocasalapp.despesas.repositorio.ICallbackBuscarDespesasPorMesAno;
 import br.android.bolsocasalapp.despesas.repositorio.IRepositorioDeDespesas;
@@ -88,14 +89,17 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
     @Override
     public void BuscarDespesasPorAnoMes(String mesAno, final ICallbackBuscarDespesasPorAnoMes callback) {
 
-        String idDoCasal = "";
-        mesAno = "";
+        String idDoCasal = "bmF0YW5hZWxzYW50b3NickBnbWFpbC5jb21uYXRzcGluZG9sYUBob3RtYWlsLmNvbQ==";
+        mesAno = "042020";
 
+        Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno");
         _repositorioDeDespesas.BuscarDespesasPorMesAno(idDoCasal, mesAno, new ICallbackBuscarDespesasPorMesAno() {
             @Override
             public void onSucesso(boolean retorno, List<Despesa> despesas) {
                 if(retorno)
                 {
+                    Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno" + despesas.size());
+
                     callback.onSucesso(true, despesas);
                 }
             }

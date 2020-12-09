@@ -14,12 +14,7 @@ public class Despesa {
     private String valor;
     private Usuario usuario;
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public Despesa() {
     }
 
     public Despesa(String id, String nome, String categoria, String data, String mesAno, String  valor, Usuario usuario) {
@@ -29,6 +24,14 @@ public class Despesa {
         this.data = data;
         this.valor = valor;
         this.mesAno = mesAno;
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 

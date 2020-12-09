@@ -16,11 +16,16 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.util.List;
+
 import br.android.bolsocasalapp.R;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
 import br.android.bolsocasalapp.despesas.activity.DespesaActivity;
+import br.android.bolsocasalapp.despesas.dominio.Despesa;
+import br.android.bolsocasalapp.despesas.model.AdapterDespesa;
+import br.android.bolsocasalapp.despesas.servicos.ICallbackBuscarDespesasPorAnoMes;
 import br.android.bolsocasalapp.despesas.servicos.IServicoDeDespesas;
 import br.android.bolsocasalapp.despesas.servicos.ServicoDeDespesas;
 import br.android.bolsocasalapp.usuario.activity.LoginActivity;
@@ -47,9 +52,16 @@ public class MainActivity extends AppCompatActivity {
         lblNomeDoUsuario = findViewById(R.id.lblNomeDoUsuario);
         configurarCalendarView();
 
+        listarDespesas();
+
+    }
+
+    private void listarDespesas() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerDespesas.setLayoutManager(layoutManager);
         recyclerDespesas.setHasFixedSize(true);
+
+
 
     }
 
@@ -63,6 +75,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
                 String mesSelecionado = String.format("%02d", (date.getMonth() ));
+
+                _servicoDeDespesas.BuscarDespesasPorAnoMes(mesSelecionado, new ICallbackBuscarDespesasPorAnoMes() {
+                    @Override
+                    public void onSucesso(boolean retorno, List<Despesa> despesas) {
+                        if(retorno)
+                        {
+                            AdapterDespesa adapterDespesa = new AdapterDespesa(despesas, getApplicationContext());
+                            recyclerDespesas.setAdapter(adapterDespesa);
+                            adapterDespesa.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+
+                    }
+                });
+
             }
         });
     }
