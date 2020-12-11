@@ -4,7 +4,7 @@ import br.android.bolsocasalapp.autenticacao.model.ModeloDeAutenticacao;
 import br.android.bolsocasalapp.usuario.servicos.ICallbackCadastrar;
 
 public interface IServicoDeAutenticacao {
-    void Cadastrar(String email, String senha, ICallbackCadastrarNoAuth callback);
+    void Cadastrar(String nome,  String email, String senha, ICallbackCadastrarNoAuth callback);
 
     void Autenticar(ModeloDeAutenticacao modelo, ICallbackAutenticar callback);
 

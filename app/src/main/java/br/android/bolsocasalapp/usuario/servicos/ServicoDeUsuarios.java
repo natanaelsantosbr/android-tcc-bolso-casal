@@ -82,7 +82,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
                         final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), modelo.getEmailDoConjugue(), finalPrincipal, token);
 
-                        _servicoDeAutenticacao.Cadastrar(usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+                        _servicoDeAutenticacao.Cadastrar(usuario.getNomeCompleto(), usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
                             @Override
                             public void onSucesso(FirebaseUser firebaseUser) {
                                 _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);

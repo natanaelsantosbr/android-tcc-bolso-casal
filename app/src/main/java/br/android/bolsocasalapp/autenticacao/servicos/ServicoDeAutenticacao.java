@@ -1,5 +1,7 @@
 package br.android.bolsocasalapp.autenticacao.servicos;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -8,6 +10,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import br.android.bolsocasalapp.autenticacao.model.ModeloDeAutenticacao;
 import br.android.bolsocasalapp.helper.ConfiguracaoFirebase;
@@ -16,13 +20,29 @@ import br.android.bolsocasalapp.helper.ExtensaoDeString;
 public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
 
     @Override
-    public void Cadastrar(String email, String senha, final ICallbackCadastrarNoAuth callback) {
+    public void Cadastrar(final String nome, String email, String senha, final ICallbackCadastrarNoAuth callback) {
         final FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
         firebaseAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    callback.onSucesso(firebaseAuth.getCurrentUser());
+
+                    Log.d("Cadastrar", "Cadastrar: " + nome);
+                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(nome)
+                            .build();
+
+                    final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+                    firebaseUser.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful())
+                            {
+                                callback.onSucesso(firebaseUser);
+                            }
+                        }
+                    });
                 } else {
                     try {
                         throw task.getException();

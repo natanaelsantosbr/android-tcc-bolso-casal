@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.android.bolsocasalapp.R;
@@ -30,6 +33,7 @@ import br.android.bolsocasalapp.despesas.servicos.ICallbackBuscarDespesasPorAnoM
 import br.android.bolsocasalapp.despesas.servicos.IServicoDeDespesas;
 import br.android.bolsocasalapp.despesas.servicos.ServicoDeDespesas;
 import br.android.bolsocasalapp.usuario.activity.LoginActivity;
+import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity {
     private IServicoDeAutenticacao _servicoDeAutenticacao = new ServicoDeAutenticacao();
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialCalendarView calendarView;
     private RecyclerView recyclerDespesas;
     private TextView lblNomeDoUsuario;
+    private AlertDialog dialog;
 
 
 
@@ -53,11 +58,43 @@ public class MainActivity extends AppCompatActivity {
         lblNomeDoUsuario = findViewById(R.id.lblNomeDoUsuario);
         configurarCalendarView();
 
-        listarDespesas();
+        configurarRecyclerView();
+
+        listarDespesaDoMesAtual();
+
 
     }
 
-    private void listarDespesas() {
+    private void listarDespesaDoMesAtual() {
+        CalendarDay dataAtual = calendarView.getCurrentDate();
+
+        String mes = String.format("%02d", dataAtual.getMonth());
+        String ano = String.valueOf(dataAtual.getYear());
+
+        String mesAtual = mes  + ano;
+
+        buscarDespesasPorMesAno(mesAtual);
+    }
+
+    private void buscarDespesasPorMesAno(String mesAtual) {
+        _servicoDeDespesas.BuscarDespesasPorAnoMes(mesAtual, new ICallbackBuscarDespesasPorAnoMes() {
+
+            @Override
+            public void onSucesso(boolean retorno, List<Despesa> despesas) {
+                if (retorno) {
+                    AdapterDespesa adapterDespesa = new AdapterDespesa(despesas, getApplicationContext());
+                    recyclerDespesas.setAdapter(adapterDespesa);
+                    adapterDespesa.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+            }
+        });
+    }
+
+    private void configurarRecyclerView() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerDespesas.setLayoutManager(layoutManager);
         recyclerDespesas.setHasFixedSize(true);
@@ -65,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void configurarCalendarView() {
 
-        CalendarDay dataAtual = calendarView.getCurrentDate();
+
+
 
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
@@ -76,23 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 String mesSelecionado = String.format("%02d", (date.getMonth() ));
                 mesSelecionado = mesSelecionado + "" + date.getYear();
 
-                _servicoDeDespesas.BuscarDespesasPorAnoMes(mesSelecionado, new ICallbackBuscarDespesasPorAnoMes() {
-
-                    @Override
-                    public void onSucesso(boolean retorno, List<Despesa> despesas) {
-                        if(retorno)
-                        {
-                            AdapterDespesa adapterDespesa = new AdapterDespesa(despesas, getApplicationContext());
-                            recyclerDespesas.setAdapter(adapterDespesa);
-                            adapterDespesa.notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onErro(String mensagem) {
-
-                    }
-                });
+                buscarDespesasPorMesAno(mesSelecionado);
 
             }
         });
@@ -118,8 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    lblNomeDoUsuario.setText(usuario.getEmail());
-
+                    lblNomeDoUsuario.setText(usuario.getDisplayName());
                 }
             }
 
@@ -162,5 +183,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void fecharDialog() {
+        dialog.dismiss();
+    }
+
+    private void abrirDialog() {
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Autenticando...")
+                .setCancelable(true)
+                .build();
+
+        dialog.show();
     }
 }
