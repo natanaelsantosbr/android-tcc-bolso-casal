@@ -20,6 +20,7 @@ import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacoes;
 import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacao;
 import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacoes;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
+import br.android.bolsocasalapp.usuario.servicos.ICallbackBuscarIdDoCasal;
 import br.android.bolsocasalapp.usuario.servicos.ICallbackBuscarUsuarioLogado;
 import br.android.bolsocasalapp.usuario.servicos.IServicoDeUsuarios;
 import br.android.bolsocasalapp.usuario.servicos.ServicoDeUsuarios;
@@ -87,21 +88,31 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
     }
 
     @Override
-    public void BuscarDespesasPorAnoMes(String mesAno, final ICallbackBuscarDespesasPorAnoMes callback) {
-
-        String idDoCasal = "bmF0YW5hZWxzYW50b3NickBnbWFpbC5jb21uYXRzcGluZG9sYUBob3RtYWlsLmNvbQ==";
-        mesAno = "042020";
-
-        Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno");
-        _repositorioDeDespesas.BuscarDespesasPorMesAno(idDoCasal, mesAno, new ICallbackBuscarDespesasPorMesAno() {
+    public void BuscarDespesasPorAnoMes(final String mesAno, final ICallbackBuscarDespesasPorAnoMes callback) {
+        _servicoDeUsuarios.BuscarIdDoCasal(new ICallbackBuscarIdDoCasal() {
             @Override
-            public void onSucesso(boolean retorno, List<Despesa> despesas) {
+            public void onSucesso(boolean retorno, String idDoCasal) {
                 if(retorno)
                 {
-                    Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno" + despesas.size());
+                    Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno");
+                    _repositorioDeDespesas.BuscarDespesasPorMesAno(idDoCasal, mesAno, new ICallbackBuscarDespesasPorMesAno() {
+                        @Override
+                        public void onSucesso(boolean retorno, List<Despesa> despesas) {
+                            if(retorno)
+                            {
+                                Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno" + despesas.size());
 
-                    callback.onSucesso(true, despesas);
+                                callback.onSucesso(true, despesas);
+                            }
+                        }
+
+                        @Override
+                        public void onErro(String mensagem) {
+                            callback.onErro(mensagem);
+                        }
+                    });
                 }
+
             }
 
             @Override

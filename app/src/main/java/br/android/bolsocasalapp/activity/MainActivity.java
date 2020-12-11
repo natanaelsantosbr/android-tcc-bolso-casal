@@ -16,6 +16,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.android.bolsocasalapp.R;
@@ -60,23 +61,23 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerDespesas.setLayoutManager(layoutManager);
         recyclerDespesas.setHasFixedSize(true);
-
-
-
     }
 
     public void configurarCalendarView() {
 
         CalendarDay dataAtual = calendarView.getCurrentDate();
 
-        String mesSelecionado = String.format("%02d", (dataAtual.getMonth()));
-
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+                limparListaDeDespesas();
+
+
                 String mesSelecionado = String.format("%02d", (date.getMonth() ));
+                mesSelecionado = mesSelecionado + "" + date.getYear();
 
                 _servicoDeDespesas.BuscarDespesasPorAnoMes(mesSelecionado, new ICallbackBuscarDespesasPorAnoMes() {
+
                     @Override
                     public void onSucesso(boolean retorno, List<Despesa> despesas) {
                         if(retorno)
@@ -95,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void limparListaDeDespesas() {
+        List<Despesa> tempDespesas = new ArrayList<>();
+
+        AdapterDespesa adapterDespesa = new AdapterDespesa(tempDespesas, getApplicationContext());
+        recyclerDespesas.setAdapter(adapterDespesa);
+        adapterDespesa.notifyDataSetChanged();
     }
 
     @Override

@@ -9,4 +9,5 @@ public interface IRepositorioDeUsuarios {
     void BuscarUsuarioNoBanco(String id, ICallbackBuscarUsuarioNoBanco callback);
 
     void BuscarConjugeNoBanco(String id, ICallbackBuscarUsuarioNoBanco callback);
+
 }

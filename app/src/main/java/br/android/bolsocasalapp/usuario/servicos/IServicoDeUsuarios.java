@@ -8,4 +8,6 @@ public interface IServicoDeUsuarios {
     void BuscarUsuarioLogado(ICallbackBuscarUsuarioLogado callback);
 
     void BuscarDadosDoConjuge(ICallbackBuscarUsuarioLogado callback);
+
+    void BuscarIdDoCasal(ICallbackBuscarIdDoCasal callback);
 }

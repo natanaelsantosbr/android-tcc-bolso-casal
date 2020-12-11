@@ -42,26 +42,19 @@ public class RepositorioDeDespesas implements IRepositorioDeDespesas {
         despesas.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno oi2");
                 List<Despesa> listaDeDespesas = new ArrayList<>();
                 if(snapshot.exists())
                 {
-                    Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno oi3");
                     for (DataSnapshot ds: snapshot.getChildren()) {
                         Despesa despesa = ds.getValue(Despesa.class);
                         listaDeDespesas.add(despesa);
                     }
                     callback.onSucesso(true, listaDeDespesas);
                 }
-                else
-                {
-                    Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno oi2");
-                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno oi" + error.getMessage());
                 callback.onErro(error.getMessage());
             }
         });

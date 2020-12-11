@@ -12,9 +12,7 @@ import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
 import br.android.bolsocasalapp.notificacoes.servicos.ICallbackToken;
 import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacao;
-import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacoes;
 import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacao;
-import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacoes;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackCadastrarNoAuth;
@@ -31,7 +29,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
     private IServicoDeNotificacao _servicoDeNotificacao;
 
     public ServicoDeUsuarios() {
-        _servicoDeAutenticacao  = new ServicoDeAutenticacao();
+        _servicoDeAutenticacao = new ServicoDeAutenticacao();
         _repositorioDeUsuarios = new RepositorioDeUsuarios();
         _servicoDeNotificacao = new ServicoDeNotificacao(this);
     }
@@ -65,15 +63,15 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
         }
 
         final String id = Base64Custom.codificarBase64(modelo.getEmail());
-        
+
         String chaveDoConjuge = Base64Custom.codificarBase64(modelo.getEmailDoConjugue());
-        
+
         _repositorioDeUsuarios.BuscarUsuarioNoBanco(chaveDoConjuge, new ICallbackBuscarUsuarioNoBanco() {
             @Override
             public void onSucesso(boolean retorno, Usuario usuarioRetorno) {
                 boolean principal = true;
-                
-                if(usuarioRetorno != null)
+
+                if (usuarioRetorno != null)
                     principal = false;
 
                 final boolean finalPrincipal = principal;
@@ -100,7 +98,6 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                 });
 
 
-
             }
 
             @Override
@@ -109,8 +106,8 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
             }
         });
-        
-        
+
+
     }
 
     @Override
@@ -119,7 +116,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
             @Override
             public void onSucesso(boolean retorno, FirebaseUser usuario) {
                 String id = Base64Custom.codificarBase64(usuario.getEmail());
-                
+
                 _repositorioDeUsuarios.BuscarUsuarioNoBanco(id, new ICallbackBuscarUsuarioNoBanco() {
                     @Override
                     public void onSucesso(boolean retorno, Usuario usuario) {
@@ -138,7 +135,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
             }
         });
-        
+
     }
 
     @Override
@@ -179,5 +176,23 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
             }
         });
 
+    }
+
+    @Override
+    public void BuscarIdDoCasal(final ICallbackBuscarIdDoCasal callback) {
+        this.BuscarUsuarioLogado(new ICallbackBuscarUsuarioLogado() {
+            @Override
+            public void onSucesso(boolean retorno, Usuario usuario) {
+                if (retorno) {
+                    String id = Base64Custom.codificarBase64(usuario.isPrincipal() ? usuario.getEmail() + usuario.getConjuge() : usuario.getConjuge() + usuario.getEmail());
+                    callback.onSucesso(true, id);
+                }
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+
+            }
+        });
     }
 }
