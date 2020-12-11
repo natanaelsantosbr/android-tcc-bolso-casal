@@ -1,6 +1,7 @@
 package br.android.bolsocasalapp.usuario.servicos;
 
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -187,6 +188,30 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                     String id = Base64Custom.codificarBase64(usuario.isPrincipal() ? usuario.getEmail() + usuario.getConjuge() : usuario.getConjuge() + usuario.getEmail());
                     callback.onSucesso(true, id);
                 }
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+
+            }
+        });
+    }
+
+    @Override
+    public void AtualizarToken(ICallbackAtualizarToken callback) {
+        this.BuscarUsuarioLogado(new ICallbackBuscarUsuarioLogado() {
+            @Override
+            public void onSucesso(boolean retorno, final Usuario usuario) {
+                _servicoDeNotificacao.RetornarToken(new ICallbackToken() {
+                    @Override
+                    public void onSucesso(String token) {
+                        if(!usuario.getToken().equals(token))
+                        {
+
+                        }
+
+                    }
+                });
             }
 
             @Override

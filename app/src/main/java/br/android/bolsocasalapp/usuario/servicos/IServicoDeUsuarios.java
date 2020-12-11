@@ -10,4 +10,6 @@ public interface IServicoDeUsuarios {
     void BuscarDadosDoConjuge(ICallbackBuscarUsuarioLogado callback);
 
     void BuscarIdDoCasal(ICallbackBuscarIdDoCasal callback);
+
+    void AtualizarToken(ICallbackAtualizarToken callback);
 }

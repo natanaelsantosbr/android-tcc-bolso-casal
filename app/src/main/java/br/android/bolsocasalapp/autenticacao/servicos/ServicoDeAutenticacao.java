@@ -16,8 +16,13 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import br.android.bolsocasalapp.autenticacao.model.ModeloDeAutenticacao;
 import br.android.bolsocasalapp.helper.ConfiguracaoFirebase;
 import br.android.bolsocasalapp.helper.ExtensaoDeString;
+import br.android.bolsocasalapp.usuario.servicos.ICallbackAtualizarToken;
+import br.android.bolsocasalapp.usuario.servicos.IServicoDeUsuarios;
+import br.android.bolsocasalapp.usuario.servicos.ServicoDeUsuarios;
 
 public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
+
+    private IServicoDeUsuarios _servicoDeUsuarios  = new ServicoDeUsuarios();
 
     @Override
     public void Cadastrar(final String nome, String email, String senha, final ICallbackCadastrarNoAuth callback) {
@@ -77,7 +82,20 @@ public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
-                    callback.onSucesso(true, firebaseAuth.getCurrentUser());
+                    _servicoDeUsuarios.AtualizarToken(new ICallbackAtualizarToken() {
+                        @Override
+                        public void onSucesso(boolean retorno, String token) {
+                            if(retorno)
+                            {
+                                callback.onSucesso(true, firebaseAuth.getCurrentUser());
+                            }
+                        }
+
+                        @Override
+                        public void onErro(String email) {
+
+                        }
+                    });
                 }
                 else
                 {

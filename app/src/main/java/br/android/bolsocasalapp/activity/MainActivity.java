@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         getSupportActionBar().setTitle("BolsoCasal");
         getSupportActionBar().setElevation(0);
 
@@ -59,10 +58,6 @@ public class MainActivity extends AppCompatActivity {
         configurarCalendarView();
 
         configurarRecyclerView();
-
-        listarDespesaDoMesAtual();
-
-
     }
 
     private void listarDespesaDoMesAtual() {
@@ -76,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         buscarDespesasPorMesAno(mesAtual);
     }
 
-    private void buscarDespesasPorMesAno(String mesAtual) {
+    private void buscarDespesasPorMesAno(final String mesAtual) {
         _servicoDeDespesas.BuscarDespesasPorAnoMes(mesAtual, new ICallbackBuscarDespesasPorAnoMes() {
 
             @Override
@@ -101,9 +96,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void configurarCalendarView() {
-
-
-
 
         calendarView.setOnMonthChangedListener(new OnMonthChangedListener() {
             @Override
@@ -131,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        verificarSeEstaLogado();
+        listarDespesaDoMesAtual();
+
+    }
+
+    private void verificarSeEstaLogado() {
         _servicoDeAutenticacao.VerificarSeEstaLogado(new ICallbackAutenticar() {
             @Override
             public void onSucesso(boolean retorno, FirebaseUser usuario) {

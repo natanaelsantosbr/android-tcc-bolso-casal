@@ -15,6 +15,7 @@ import br.android.bolsocasalapp.despesas.repositorio.IRepositorioDeDespesas;
 import br.android.bolsocasalapp.despesas.repositorio.RepositorioDeDespesas;
 import br.android.bolsocasalapp.helper.DateCustom;
 import br.android.bolsocasalapp.helper.ExtensaoDeString;
+import br.android.bolsocasalapp.notificacoes.servicos.ICallbackToken;
 import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacao;
 import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacoes;
 import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacao;
@@ -94,14 +95,11 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
             public void onSucesso(boolean retorno, String idDoCasal) {
                 if(retorno)
                 {
-                    Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno");
                     _repositorioDeDespesas.BuscarDespesasPorMesAno(idDoCasal, mesAno, new ICallbackBuscarDespesasPorMesAno() {
                         @Override
                         public void onSucesso(boolean retorno, List<Despesa> despesas) {
                             if(retorno)
                             {
-                                Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno" + despesas.size());
-
                                 callback.onSucesso(true, despesas);
                             }
                         }
