@@ -22,9 +22,7 @@ import br.android.bolsocasalapp.usuario.servicos.ServicoDeUsuarios;
 
 public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
 
-    private IServicoDeUsuarios _servicoDeUsuarios  = new ServicoDeUsuarios();
-
-    @Override
+        @Override
     public void Cadastrar(final String nome, String email, String senha, final ICallbackCadastrarNoAuth callback) {
         final FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
         firebaseAuth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -82,20 +80,7 @@ public class ServicoDeAutenticacao implements IServicoDeAutenticacao {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
-                    _servicoDeUsuarios.AtualizarToken(new ICallbackAtualizarToken() {
-                        @Override
-                        public void onSucesso(boolean retorno, String token) {
-                            if(retorno)
-                            {
-                                callback.onSucesso(true, firebaseAuth.getCurrentUser());
-                            }
-                        }
-
-                        @Override
-                        public void onErro(String email) {
-
-                        }
-                    });
+                    callback.onSucesso(true, firebaseAuth.getCurrentUser());
                 }
                 else
                 {

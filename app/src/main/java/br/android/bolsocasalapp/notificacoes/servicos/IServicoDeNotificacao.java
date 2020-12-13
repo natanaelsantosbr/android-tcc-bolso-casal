@@ -4,6 +4,4 @@ import br.android.bolsocasalapp.despesas.dominio.Despesa;
 
 public interface IServicoDeNotificacao {
     void Enviar(Despesa despesa);
-
-    void RetornarToken(ICallbackToken callback);
 }

@@ -1,34 +1,18 @@
 package br.android.bolsocasalapp.notificacoes.servicos;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.Gson;
 
-import br.android.bolsocasalapp.R;
-import br.android.bolsocasalapp.activity.MainActivity;
 import br.android.bolsocasalapp.despesas.dominio.Despesa;
 import br.android.bolsocasalapp.notificacoes.model.Notificacao;
 import br.android.bolsocasalapp.notificacoes.model.NotificacaoItem;
 import br.android.bolsocasalapp.notificacoes.servicos.api.IServicoDeNotificacoesApi;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.servicos.ICallbackBuscarUsuarioLogado;
+import br.android.bolsocasalapp.usuario.servicos.ICallbackToken;
 import br.android.bolsocasalapp.usuario.servicos.IServicoDeUsuarios;
 import br.android.bolsocasalapp.usuario.servicos.ServicoDeUsuarios;
 import retrofit2.Call;

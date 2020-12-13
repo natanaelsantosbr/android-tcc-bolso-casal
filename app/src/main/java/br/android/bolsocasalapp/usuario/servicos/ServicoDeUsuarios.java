@@ -1,19 +1,15 @@
 package br.android.bolsocasalapp.usuario.servicos;
 
-import android.util.Base64;
-import android.util.Log;
+import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.text.ParseException;
 
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackAutenticar;
 import br.android.bolsocasalapp.autenticacao.servicos.IServicoDeAutenticacao;
 import br.android.bolsocasalapp.autenticacao.servicos.ServicoDeAutenticacao;
-import br.android.bolsocasalapp.notificacoes.servicos.ICallbackToken;
-import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacao;
-import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacao;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.model.ModeloDeCadastroDeUsuario;
 import br.android.bolsocasalapp.autenticacao.servicos.ICallbackCadastrarNoAuth;
@@ -27,12 +23,10 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
     private IServicoDeAutenticacao _servicoDeAutenticacao;
     private IRepositorioDeUsuarios _repositorioDeUsuarios;
-    private IServicoDeNotificacao _servicoDeNotificacao;
 
     public ServicoDeUsuarios() {
         _servicoDeAutenticacao = new ServicoDeAutenticacao();
         _repositorioDeUsuarios = new RepositorioDeUsuarios();
-        _servicoDeNotificacao = new ServicoDeNotificacao(this);
     }
 
     @Override
@@ -77,7 +71,7 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
                 final boolean finalPrincipal = principal;
 
-                _servicoDeNotificacao.RetornarToken(new ICallbackToken() {
+                RetornarToken(new ICallbackToken() {
                     @Override
                     public void onSucesso(String token) {
 
@@ -198,18 +192,27 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
     }
 
     @Override
-    public void AtualizarToken(ICallbackAtualizarToken callback) {
+    public void AtualizarToken(final ICallbackAtualizarToken callback) {
         this.BuscarUsuarioLogado(new ICallbackBuscarUsuarioLogado() {
             @Override
             public void onSucesso(boolean retorno, final Usuario usuario) {
-                _servicoDeNotificacao.RetornarToken(new ICallbackToken() {
+                RetornarToken(new ICallbackToken() {
                     @Override
-                    public void onSucesso(String token) {
+                    public void onSucesso(final String token) {
                         if(!usuario.getToken().equals(token))
                         {
+                            _repositorioDeUsuarios.AtualizarToken(usuario.getId(), token, new br.android.bolsocasalapp.usuario.repositorios.ICallbackAtualizarToken() {
+                                @Override
+                                public void onSucesso(boolean retorno) {
+                                    callback.onSucesso(true, token);
+                                }
 
+                                @Override
+                                public void onErro(String mensagem) {
+                                    callback.onErro(mensagem);
+                                }
+                            });
                         }
-
                     }
                 });
             }
@@ -219,5 +222,16 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
 
             }
         });
+    }
+
+    @Override
+    public void RetornarToken(final ICallbackToken callback) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        callback.onSucesso(task.getResult());
+                    }
+                });
     }
 }

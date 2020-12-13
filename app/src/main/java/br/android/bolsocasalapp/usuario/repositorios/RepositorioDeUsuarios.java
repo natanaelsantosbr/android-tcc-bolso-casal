@@ -4,6 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,5 +66,26 @@ public class RepositorioDeUsuarios implements IRepositorioDeUsuarios {
                 callback.onErro(error.getMessage());
             }
         });
+    }
+
+    @Override
+    public void AtualizarToken(String id, String token, final ICallbackAtualizarToken callback) {
+        DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(id);
+
+        firebase.child("token").setValue(token).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                {
+                    callback.onSucesso(true);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                callback.onErro(e.getMessage());
+            }
+        });
+
     }
 }

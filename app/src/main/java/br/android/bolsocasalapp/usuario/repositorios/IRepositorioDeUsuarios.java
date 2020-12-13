@@ -10,4 +10,6 @@ public interface IRepositorioDeUsuarios {
 
     void BuscarConjugeNoBanco(String id, ICallbackBuscarUsuarioNoBanco callback);
 
+    void AtualizarToken(String id, String nome, ICallbackAtualizarToken callback);
+
 }

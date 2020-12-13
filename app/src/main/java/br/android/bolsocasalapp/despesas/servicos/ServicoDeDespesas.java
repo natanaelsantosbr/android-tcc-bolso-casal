@@ -1,25 +1,16 @@
 package br.android.bolsocasalapp.despesas.servicos;
 
-import android.util.Log;
-
-import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Locale;
 
 import br.android.bolsocasalapp.despesas.dominio.Despesa;
-import br.android.bolsocasalapp.despesas.model.AdapterDespesa;
 import br.android.bolsocasalapp.despesas.model.ModeloDeCadastroDeDespesa;
 import br.android.bolsocasalapp.despesas.repositorio.ICallbackBuscarDespesasPorMesAno;
 import br.android.bolsocasalapp.despesas.repositorio.IRepositorioDeDespesas;
 import br.android.bolsocasalapp.despesas.repositorio.RepositorioDeDespesas;
 import br.android.bolsocasalapp.helper.DateCustom;
 import br.android.bolsocasalapp.helper.ExtensaoDeString;
-import br.android.bolsocasalapp.notificacoes.servicos.ICallbackToken;
 import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacao;
-import br.android.bolsocasalapp.notificacoes.servicos.IServicoDeNotificacoes;
 import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacao;
-import br.android.bolsocasalapp.notificacoes.servicos.ServicoDeNotificacoes;
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
 import br.android.bolsocasalapp.usuario.servicos.ICallbackBuscarIdDoCasal;
 import br.android.bolsocasalapp.usuario.servicos.ICallbackBuscarUsuarioLogado;

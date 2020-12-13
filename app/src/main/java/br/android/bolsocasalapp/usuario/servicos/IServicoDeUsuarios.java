@@ -12,4 +12,6 @@ public interface IServicoDeUsuarios {
     void BuscarIdDoCasal(ICallbackBuscarIdDoCasal callback);
 
     void AtualizarToken(ICallbackAtualizarToken callback);
+
+    void RetornarToken(ICallbackToken callback);
 }

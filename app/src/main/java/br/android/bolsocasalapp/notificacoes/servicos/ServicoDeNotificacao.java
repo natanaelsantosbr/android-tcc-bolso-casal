@@ -88,14 +88,5 @@ public class ServicoDeNotificacao implements IServicoDeNotificacao{
         });
     }
 
-    @Override
-    public void RetornarToken(final ICallbackToken callback) {
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        callback.onSucesso(task.getResult());
-                    }
-                });
-    }
+
 }
