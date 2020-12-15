@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BolsoCasalApp</string>
+    <string name="app_name">Bolso do Casal</string>
     <string name="default_notification_channel_id">fcm_default_channel</string>
     <string name="chave_notificacao_firebase">AAAA9GNb0YA:APA91bEOcfhB2v2FHtvFGEGa7NRqgQ3UZkFDvWC2DRk-H_G57Qm3QC0_AUUh9yhmS0Vy_Acwvxv0pWzTLE2blYTCaB5MSPc-KRpA7FkGMIThh1QCjEoO4Hxe45gPpHpFdsHaOOGEryEC</string>
 </resources>

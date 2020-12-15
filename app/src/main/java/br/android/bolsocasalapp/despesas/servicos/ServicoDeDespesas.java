@@ -34,17 +34,11 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
     @Override
     public void Cadastrar(final ModeloDeCadastroDeDespesa modelo, final ICallbackCadastrarDespesa callback) {
         boolean validarDescricao = ExtensaoDeString.validarCampo(modelo.getDescricao());
-        boolean validarCategoria = ExtensaoDeString.validarCampo(modelo.getCategoria());
         boolean validarData = ExtensaoDeString.validarCampo(modelo.getData());
         boolean validarValor = ExtensaoDeString.validarCampo(modelo.getValor());
 
         if (!validarDescricao) {
             callback.onErro("Preencha a Descrição");
-            return;
-        }
-
-        if (!validarCategoria) {
-            callback.onErro("Preencha a Categoria");
             return;
         }
 
@@ -63,7 +57,7 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
                 String id = Base64Custom.codificarBase64(usuario.isPrincipal() ? usuario.getEmail() + usuario.getConjuge() : usuario.getConjuge() + usuario.getEmail());
                 modelo.setValor(String.valueOf(ExtensaoDeString.ConverterRealParaString(modelo.getValor())));
 
-                Despesa despesa = new Despesa(id, modelo.getDescricao(), modelo.getCategoria(), modelo.getData(), DateCustom.mesAnoDataEscolhida(modelo.getData()), modelo.getValor(), usuario);
+                Despesa despesa = new Despesa(id, modelo.getDescricao(),  modelo.getData(), DateCustom.mesAnoDataEscolhida(modelo.getData()), modelo.getValor(), usuario);
 
                 _repositorioDeDespesas.CadastrarDespesaNoBanco(despesa);
 

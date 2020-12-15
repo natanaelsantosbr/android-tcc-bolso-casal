@@ -115,7 +115,10 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                 _repositorioDeUsuarios.BuscarUsuarioNoBanco(id, new ICallbackBuscarUsuarioNoBanco() {
                     @Override
                     public void onSucesso(boolean retorno, Usuario usuario) {
+                        if(usuario != null)
                         callback.onSucesso(true, usuario);
+                        else
+                            callback.onSucesso(false, usuario);
                     }
 
                     @Override

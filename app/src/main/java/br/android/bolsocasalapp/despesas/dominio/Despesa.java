@@ -8,7 +8,6 @@ import br.android.bolsocasalapp.usuario.dominio.Usuario;
 public class Despesa {
     private String id;
     private String nome;
-    private String categoria;
     private String data;
     private String mesAno;
     private String valor;
@@ -17,10 +16,9 @@ public class Despesa {
     public Despesa() {
     }
 
-    public Despesa(String id, String nome, String categoria, String data, String mesAno, String  valor, Usuario usuario) {
+    public Despesa(String id, String nome, String data, String mesAno, String  valor, Usuario usuario) {
         this.id = id;
         this.nome = nome;
-        this.categoria = categoria;
         this.data = data;
         this.valor = valor;
         this.mesAno = mesAno;
@@ -49,14 +47,6 @@ public class Despesa {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 
     public String getData() {

@@ -30,18 +30,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtDespesaCategoria"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Categoria"
-                android:inputType="textCapWords" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.santalu.maskara.widget.MaskEditText
             android:id="@+id/txtDespesaData"
             android:layout_width="match_parent"

@@ -21,7 +21,6 @@ import dmax.dialog.SpotsDialog;
 
 public class DespesaActivity extends AppCompatActivity {
     private TextInputEditText txtDespesaDescricao;
-    private TextInputEditText txtDespesaCategoria;
     private TextInputEditText txtDespesaData;
     private CurrencyEditText txtDespesaValor;
 
@@ -44,7 +43,6 @@ public class DespesaActivity extends AppCompatActivity {
 
     private void inicializarComponentes() {
         txtDespesaDescricao = findViewById(R.id.txtDespesaDescricao);
-        txtDespesaCategoria = findViewById(R.id.txtDespesaCategoria);
         txtDespesaData = findViewById(R.id.txtDespesaData);
         txtDespesaValor = findViewById(R.id.txtDespesaValor);
     }
@@ -59,7 +57,7 @@ public class DespesaActivity extends AppCompatActivity {
         dialog.show();
 
         ModeloDeCadastroDeDespesa modelo = new ModeloDeCadastroDeDespesa(txtDespesaDescricao.getText().toString(),
-                txtDespesaCategoria.getText().toString(), txtDespesaData.getText().toString(), txtDespesaValor.getText().toString());
+                 txtDespesaData.getText().toString(), txtDespesaValor.getText().toString());
 
         _servicoDeDespesas.Cadastrar(modelo, new ICallbackCadastrarDespesa() {
             @Override
