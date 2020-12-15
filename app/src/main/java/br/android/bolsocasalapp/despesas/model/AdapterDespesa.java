@@ -35,7 +35,7 @@ public class AdapterDespesa extends RecyclerView.Adapter<AdapterDespesa.Moviment
         Despesa despesa = despesas.get(position);
 
         holder.titulo.setText(despesa.getNome());
-        holder.valor.setText(despesa.getValor());
+        holder.valor.setText(despesa.getValorFormatado());
         holder.nome.setText(despesa.getUsuario().getNomeCompleto());
     }
 

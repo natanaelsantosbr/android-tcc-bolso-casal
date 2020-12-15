@@ -1,6 +1,7 @@
 package br.android.bolsocasalapp.despesas.dominio;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Date;
 
 import br.android.bolsocasalapp.usuario.dominio.Usuario;
@@ -71,5 +72,10 @@ public class Despesa {
 
     public void setValor(String valor) {
         this.valor = valor;
+    }
+
+    public String getValorFormatado() {
+        Double a = Double.parseDouble(getValor());
+        return NumberFormat.getCurrencyInstance().format(a);
     }
 }
