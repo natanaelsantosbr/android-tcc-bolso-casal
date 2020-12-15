@@ -40,6 +40,9 @@ public class ServicoDeNotificacao implements IServicoDeNotificacao{
             public void onSucesso(boolean retorno, Usuario usuario) {
                 if(retorno)
                 {
+                    if(usuario == null)
+                        return;
+
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("https://fcm.googleapis.com/fcm/")
                             .addConverterFactory(GsonConverterFactory.create())
@@ -49,32 +52,19 @@ public class ServicoDeNotificacao implements IServicoDeNotificacao{
 
                     NotificacaoItem item = new NotificacaoItem( despesa.getUsuario().getNomeCompleto() + " adicionou uma nova despesa que foi paga", "Adicionou a despesa " + despesa.getNome() + " no valor de R$ " + despesa.getValor());
 
-                    String token = "/token/" +  usuario.getToken();
+                    String token =  usuario.getToken();
 
                     Notificacao notificacao = new Notificacao(token, item);
-
-                    Log.d("enviarNotificacao", "enviarNotificacao: " + token);
-                    Log.d("enviarNotificacao", "enviarNotificacao: " + notificacao.toString());
 
                     Call<Notificacao> call = servico.enviarNotificacao(notificacao);
 
                     call.enqueue(new Callback<Notificacao>() {
                         @Override
                         public void onResponse(Call<Notificacao> call, Response<Notificacao> response) {
-                            if(response.isSuccessful())
-                            {
-                                Log.d("enviarNotificacao", "enviarNotificacao: " + response.code());
-                            }
-                            else
-                            {
-                                Log.d("enviarNotificacao", "enviarNotificacao: " + 4);
-                            }
-
                         }
 
                         @Override
                         public void onFailure(Call<Notificacao> call, Throwable t) {
-                            Log.d("enviarNotificacao", "enviarNotificacao: " + 3);
 
                         }
                     });
