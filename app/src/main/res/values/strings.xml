@@ -3,10 +3,19 @@
     <string name="default_notification_channel_id">fcm_default_channel</string>
     <string name="chave_notificacao_firebase">AAAA9GNb0YA:APA91bEOcfhB2v2FHtvFGEGa7NRqgQ3UZkFDvWC2DRk-H_G57Qm3QC0_AUUh9yhmS0Vy_Acwvxv0pWzTLE2blYTCaB5MSPc-KRpA7FkGMIThh1QCjEoO4Hxe45gPpHpFdsHaOOGEryEC</string>
 
-    <!-- -->
+    <!-- Login -->
     <string name="login_email">E-mail</string>
     <string name="login_senha">Senha</string>
     <string name="login_acesse_sua_conta">Acesse sua conta</string>
     <string name="login_entrar">Entrar</string>
     <string name="login_ainda_nao_tem_conta">Ainda não tem conta? Cadastre-se</string>
+
+    <!-- Cadastro de Usuario -->
+    <string name="cadastro_usuario_crie_sua_conta">Crie sua conta grátis</string>
+    <string name="cadastro_usuario_nome">Nome</string>
+    <string name="cadastro_usuario_email">E-mail</string>
+    <string name="cadastro_usuario_email_conjuge">E-mail do Cônjuge</string>
+    <string name="cadastro_usuario_senha">Senha</string>
+    <string name="cadastro_usuario_cadastrar">Cadastrar</string>
+    <string name="cadastro_usuario_ja_tem_uma_conta">Já tem uma conta? Clique aqui</string>
 </resources>

@@ -36,7 +36,7 @@
             android:ems="10"
             android:hint="@string/login_email"
             android:importantForAutofill="no"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/txtLoginSenha"
@@ -67,6 +67,7 @@
             android:onClick="abrirTelaDeCadastro"
             android:text="@string/login_ainda_nao_tem_conta"
             android:textSize="18sp" />
+
 
     </LinearLayout>
 

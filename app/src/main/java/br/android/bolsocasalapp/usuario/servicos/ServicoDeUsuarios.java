@@ -3,6 +3,7 @@ package br.android.bolsocasalapp.usuario.servicos;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -76,6 +77,25 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                     public void onSucesso(String token) {
 
                         final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), modelo.getEmailDoConjugue(), finalPrincipal, token);
+
+                        _servicoDeAutenticacao.Cadastrar(usuario.getNomeCompleto(), usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
+                            @Override
+                            public void onSucesso(FirebaseUser firebaseUser) {
+                                _repositorioDeUsuarios.CadastrarUsuarioNoBanco(usuario);
+                                callback.onSucesso(true);
+                            }
+
+                            @Override
+                            public void onErro(String erro) {
+                                callback.onErro(erro);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+
+                        final Usuario usuario = new Usuario(id, modelo.getNomeCompleto(), modelo.getEmail(), modelo.getSenha(), modelo.getEmailDoConjugue(), finalPrincipal, " ");
 
                         _servicoDeAutenticacao.Cadastrar(usuario.getNomeCompleto(), usuario.getEmail(), usuario.getSenha(), new ICallbackCadastrarNoAuth() {
                             @Override
@@ -220,6 +240,11 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                             });
                         }
                     }
+
+                    @Override
+                    public void onErro(String mensagem) {
+                        callback.onErro(mensagem);
+                    }
                 });
             }
 
@@ -236,8 +261,21 @@ public class ServicoDeUsuarios implements IServicoDeUsuarios {
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
-                        callback.onSucesso(task.getResult());
+                        if(task.isSuccessful())
+                        {
+                            callback.onSucesso(task.getResult());
+                        }
+                        else
+                            callback.onErro("ERRO");
+
                     }
-                });
+                }
+                ).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                callback.onErro(e.getMessage());
+            }
+        });
     }
 }

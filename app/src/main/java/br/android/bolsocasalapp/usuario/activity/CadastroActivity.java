@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,10 +20,10 @@ import br.android.bolsocasalapp.usuario.servicos.ServicoDeUsuarios;
 import dmax.dialog.SpotsDialog;
 
 public class CadastroActivity extends AppCompatActivity {
-    private TextInputEditText txtCadastroNome;
-    private TextInputEditText txtCadastroEmail;
-    private TextInputEditText txtCadastroSenha;
-    private TextInputEditText txtCadastroEmailConjuge;
+    private EditText txtCadastroNome;
+    private EditText txtCadastroEmail;
+    private EditText txtCadastroSenha;
+    private EditText txtCadastroEmailConjuge;
     private IServicoDeUsuarios _servicoDeUsuario = new ServicoDeUsuarios();
     private AlertDialog dialog;
 

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Bolso do Casal");
+        getSupportActionBar().setTitle("BolsoCasal");
         getSupportActionBar().setElevation(0);
 
         calendarView = findViewById(R.id.calendarView);
