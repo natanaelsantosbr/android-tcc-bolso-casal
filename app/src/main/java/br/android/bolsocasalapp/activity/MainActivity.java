@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSucesso(boolean retorno, FirebaseUser usuario) {
                 if(!retorno)
                 {
-                    startActivity(new Intent(MainActivity.this, TutorialActivity.class));
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
                 else
                 {

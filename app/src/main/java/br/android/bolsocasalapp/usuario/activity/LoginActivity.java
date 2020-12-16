@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.print.PrinterId;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,8 +25,8 @@ import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextInputEditText txtLoginEmail;
-    private TextInputEditText txtLoginSenha;
+    private EditText txtLoginEmail;
+    private EditText txtLoginSenha;
     private IServicoDeAutenticacao _servicoDeAutenticacao = new ServicoDeAutenticacao();
     private AlertDialog dialog;
 

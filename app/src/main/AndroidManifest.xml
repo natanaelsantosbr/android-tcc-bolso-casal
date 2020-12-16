@@ -13,11 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.TutorialActivity"
             android:theme="@style/Theme.Intro">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".despesas.activity.DespesaActivity"
@@ -25,7 +21,11 @@
         <activity android:name=".usuario.activity.LoginActivity" />
         <activity android:name=".usuario.activity.CadastroActivity" />
         <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <service
