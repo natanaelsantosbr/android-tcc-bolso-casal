@@ -49,6 +49,10 @@ public class RepositorioDeDespesas implements IRepositorioDeDespesas {
                     }
                     callback.onSucesso(true, listaDeDespesas);
                 }
+                else
+                {
+                    callback.onSucesso(true, listaDeDespesas);
+                }
             }
 
             @Override

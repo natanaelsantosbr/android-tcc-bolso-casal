@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerDespesas;
     private TextView lblNomeDoUsuario,lblValorDoMes;
     private AlertDialog dialog;
+    private ProgressBar progressBarDespesa;
 
 
 
@@ -57,12 +60,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerDespesas = findViewById(R.id.recyclerDespesas);
         lblNomeDoUsuario = findViewById(R.id.lblNomeDoUsuario);
         lblValorDoMes = findViewById(R.id.lblValorDoMes);
+        progressBarDespesa = findViewById(R.id.progressBarDespesa);
         configurarCalendarView();
 
         configurarRecyclerView();
     }
 
     private void listarDespesaDoMesAtual() {
+        progressBarDespesa.setVisibility(View.VISIBLE);
         CalendarDay dataAtual = calendarView.getCurrentDate();
 
         String mes = String.format("%02d", dataAtual.getMonth());
@@ -94,10 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
                     lblValorDoMes.setText(NumberFormat.getCurrencyInstance().format(valorTotal));
                 }
+                progressBarDespesa.setVisibility(View.GONE);
             }
 
             @Override
             public void onErro(String mensagem) {
+                progressBarDespesa.setVisibility(View.GONE);
             }
         });
     }
@@ -115,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
                 limparListaDeDespesas();
                 lblValorDoMes.setText("R$ 0,00");
+                progressBarDespesa.setVisibility(View.VISIBLE);
 
                 String mesSelecionado = String.format("%02d", (date.getMonth() ));
                 mesSelecionado = mesSelecionado + "" + date.getYear();

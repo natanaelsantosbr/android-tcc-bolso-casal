@@ -1,5 +1,7 @@
 package br.android.bolsocasalapp.despesas.servicos;
 
+import android.util.Log;
+
 import java.util.List;
 
 import br.android.bolsocasalapp.despesas.dominio.Despesa;
@@ -83,18 +85,18 @@ public class ServicoDeDespesas implements IServicoDeDespesas {
                     _repositorioDeDespesas.BuscarDespesasPorMesAno(idDoCasal, mesAno, new ICallbackBuscarDespesasPorMesAno() {
                         @Override
                         public void onSucesso(boolean retorno, List<Despesa> despesas) {
-                            if(retorno)
-                            {
-                                callback.onSucesso(true, despesas);
-                            }
+                            callback.onSucesso(true, despesas);
                         }
 
                         @Override
-                        public void onErro(String mensagem) {
+                        public void onErro(String mensagem)
+                        {
                             callback.onErro(mensagem);
+
                         }
                     });
                 }
+
 
             }
 
