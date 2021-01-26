@@ -30,8 +30,6 @@ public class RepositorioDeDespesas implements IRepositorioDeDespesas {
     @Override
     public void BuscarDespesasPorMesAno(String id, String mesAno, final ICallbackBuscarDespesasPorMesAno callback)
     {
-        Log.d("BuscarDespesasPorMesAno", "onSucesso: BuscarDespesasPorMesAno oi" + id + "/" + mesAno);
-
         DatabaseReference firebase = ConfiguracaoFirebase.getDatabaseReference();
 
         DatabaseReference despesas = firebase

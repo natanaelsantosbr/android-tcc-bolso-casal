@@ -18,6 +18,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private IServicoDeDespesas _servicoDeDespesas = new ServicoDeDespesas();
     private MaterialCalendarView calendarView;
     private RecyclerView recyclerDespesas;
-    private TextView lblNomeDoUsuario;
+    private TextView lblNomeDoUsuario,lblValorDoMes;
     private AlertDialog dialog;
 
 
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.calendarView);
         recyclerDespesas = findViewById(R.id.recyclerDespesas);
         lblNomeDoUsuario = findViewById(R.id.lblNomeDoUsuario);
+        lblValorDoMes = findViewById(R.id.lblValorDoMes);
         configurarCalendarView();
 
         configurarRecyclerView();
@@ -80,6 +82,17 @@ public class MainActivity extends AppCompatActivity {
                     AdapterDespesa adapterDespesa = new AdapterDespesa(despesas, getApplicationContext());
                     recyclerDespesas.setAdapter(adapterDespesa);
                     adapterDespesa.notifyDataSetChanged();
+
+                    double valorTotal = 0;
+
+
+                    for (Despesa despesa : despesas)
+                    {
+                        double valorDaDespesa = Double.parseDouble(despesa.getValor());
+                        valorTotal += valorDaDespesa;
+                    }
+
+                    lblValorDoMes.setText(NumberFormat.getCurrencyInstance().format(valorTotal));
                 }
             }
 
@@ -101,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
                 limparListaDeDespesas();
-
+                lblValorDoMes.setText("R$ 0,00");
 
                 String mesSelecionado = String.format("%02d", (date.getMonth() ));
                 mesSelecionado = mesSelecionado + "" + date.getYear();
