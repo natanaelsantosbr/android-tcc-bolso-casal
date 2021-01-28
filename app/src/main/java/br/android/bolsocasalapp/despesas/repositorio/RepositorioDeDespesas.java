@@ -64,6 +64,9 @@ public class RepositorioDeDespesas implements IRepositorioDeDespesas {
 
     @Override
     public void AtualizarDespesa(Despesa despesa) {
+        //Recupera
+
+        //Atualizar no Firebase
 
     }
 }
